@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Taxi Service | Cab Booking Service | Shubham Travels</title>
+  <meta name="description" content="Quality cab taxi booking service for oneway and round trip to anywhere in Maharashtra and India. Taxi service at lowest price for local and outstation trips." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --yellow: #f5c518;
+      --dark: #1a1a2e;
+      --darker: #0f0f1a;
+      --gray: #f4f4f4;
+      --text: #333;
+      --white: #fff;
+      --accent: #e8b800;
+    }
+    body { font-family: 'Poppins', sans-serif; color: var(--text); overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: var(--dark);
+      color: #fff;
+      padding: 8px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 13px;
+    }
+    .topbar a { color: #f5c518; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .topbar a i { font-size: 15px; }
+    .social-icons a { color: #ccc; margin-left: 12px; font-size: 16px; transition: color .2s; }
+    .social-icons a:hover { color: var(--yellow); }
+
+    /* ── NAVBAR ── */
+    nav {
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0,0,0,.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 30px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-text { font-size: 22px; font-weight: 700; color: var(--dark); line-height: 1.1; }
+    .logo-text span { color: var(--yellow); }
+    .logo-sub { font-size: 11px; color: #666; font-weight: 400; }
+    .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--dark); transition: color .2s; }
+    .nav-links a:hover { color: var(--yellow); }
+    .nav-cta {
+      background: #25D366;
+      color: #fff !important;
+      padding: 8px 18px;
+      border-radius: 25px;
+      font-size: 13px !important;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hamburger { display: none; font-size: 22px; cursor: pointer; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 80px 20px 40px;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1600&q=80') center/cover no-repeat;
+      opacity: .18;
+    }
+    .hero-content { position: relative; z-index: 2; text-align: center; max-width: 900px; }
+    .hero-content h1 { font-size: clamp(28px,5vw,58px); font-weight: 700; color: #fff; line-height: 1.2; }
+    .hero-content h1 span { color: var(--yellow); }
+    .hero-content p { color: #ccc; margin: 14px 0 32px; font-size: 16px; }
+
+    /* ── BOOKING FORM ── */
+    .book-form {
+      background: rgba(255,255,255,.97);
+      border-radius: 16px;
+      padding: 28px 30px;
+      max-width: 680px;
+      margin: 0 auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    }
+    .book-form h3 { font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 18px; border-left: 4px solid var(--yellow); padding-left: 10px; }
+    .trip-tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+    .trip-tab {
+      padding: 7px 16px; border-radius: 20px; border: 2px solid #ddd;
+      font-size: 13px; font-weight: 500; cursor: pointer; transition: all .2s;
+      background: #fff; color: #555;
+    }
+    .trip-tab.active { background: var(--yellow); border-color: var(--yellow); color: #000; font-weight: 600; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label { font-size: 12px; font-weight: 600; color: #555; }
+    .form-group select, .form-group input {
+      border: 1.5px solid #e0e0e0; border-radius: 8px;
+      padding: 10px 12px; font-size: 13px; font-family: inherit;
+      outline: none; transition: border-color .2s;
+      background: #fafafa;
+    }
+    .form-group select:focus, .form-group input:focus { border-color: var(--yellow); background: #fff; }
+    .btn-book {
+      width: 100%; padding: 13px; background: var(--yellow);
+      color: #000; font-size: 15px; font-weight: 700; border: none;
+      border-radius: 10px; cursor: pointer; display: flex;
+      align-items: center; justify-content: center; gap: 8px;
+      transition: background .2s, transform .1s;
+    }
+    .btn-book:hover { background: var(--accent); transform: translateY(-1px); }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 70px 20px; }
+    .section-title { text-align: center; margin-bottom: 50px; }
+    .section-title h2 { font-size: clamp(24px,4vw,38px); font-weight: 700; color: var(--dark); }
+    .section-title p { color: #777; margin-top: 8px; font-size: 15px; }
+    .section-title .line { width: 60px; height: 4px; background: var(--yellow); margin: 12px auto 0; border-radius: 2px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    /* ── ABOUT ── */
+    .about { background: var(--gray); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+    .about-img { border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,.12); }
+    .about-img img { width: 100%; display: block; height: 360px; object-fit: cover; }
+    .about-text h2 { font-size: 32px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
+    .about-text h2 span { color: var(--yellow); }
+    .about-text p { color: #666; line-height: 1.8; margin-bottom: 20px; }
+    .about-badges { display: flex; flex-wrap: wrap; gap: 10px; }
+    .badge { background: var(--dark); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; }
+    .badge span { color: var(--yellow); margin-right: 4px; }
+    .features-row { display: flex; gap: 24px; margin-top: 28px; flex-wrap: wrap; }
+    .feat-item { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; }
+    .feat-icon { width: 42px; height: 42px; background: var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 16px; flex-shrink: 0; }
+
+    /* ── FLEET ── */
+    .fleet { background: #fff; }
+    .fleet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+    .car-card {
+      background: #fff; border-radius: 16px; padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08); text-align: center;
+      transition: transform .2s, box-shadow .2s; border: 1.5px solid #f0f0f0;
+    }
+    .car-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,.14); }
+    .car-card img { width: 100%; height: 130px; object-fit: contain; margin-bottom: 14px; }
+    .car-card .guests { font-size: 12px; color: #888; margin-bottom: 4px; }
+    .car-card h4 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 14px; }
+    .btn-whatsapp {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #25D366; color: #fff; padding: 8px 20px;
+      border-radius: 20px; font-size: 13px; font-weight: 600;
+      transition: background .2s;
+    }
+    .btn-whatsapp:hover { background: #1fad55; }
+
+    /* ── STATS ── */
+    .stats { background: var(--dark); color: #fff; padding: 60px 20px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 30px; text-align: center; max-width: 700px; margin: 0 auto; }
+    .stat-num { font-size: 52px; font-weight: 800; color: var(--yellow); line-height: 1; }
+    .stat-label { margin-top: 8px; font-size: 14px; color: #aaa; }
+
+    /* ── HOW IT WORKS ── */
+    .how { background: var(--gray); }
+    .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 30px; }
+    .step { background: #fff; border-radius: 16px; padding: 32px 24px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,.06); }
+    .step-num { width: 54px; height: 54px; background: var(--yellow); color: #000; font-size: 22px; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+    .step h4 { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .step p { color: #777; font-size: 14px; line-height: 1.6; }
+
+    /* ── SERVICES ── */
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 24px; }
+    .svc-card { background: #fff; border-radius: 16px; padding: 30px 24px; box-shadow: 0 4px 20px rgba(0,0,0,.07); border-top: 4px solid var(--yellow); }
+    .svc-icon { font-size: 32px; margin-bottom: 14px; }
+    .svc-card h4 { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .svc-card p { color: #777; font-size: 14px; line-height: 1.7; }
+
+    /* ── ROUTES ── */
+    .routes { background: var(--gray); }
+    .routes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 12px; }
+    .route-pill {
+      background: #fff; border-radius: 30px; padding: 12px 18px;
+      text-align: center; font-size: 13px; font-weight: 500; color: var(--dark);
+      box-shadow: 0 2px 10px rgba(0,0,0,.06); border: 1.5px solid #eee;
+      transition: all .2s; cursor: pointer;
+    }
+    .route-pill:hover { background: var(--yellow); border-color: var(--yellow); transform: translateY(-2px); }
+    .route-pill i { margin-right: 6px; color: var(--yellow); font-size: 11px; }
+    .route-pill:hover i { color: #000; }
+
+    /* ── WHY CHOOSE ── */
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+    .why-list { display: flex; flex-direction: column; gap: 18px; }
+    .why-item { display: flex; align-items: flex-start; gap: 16px; }
+    .why-icon { width: 48px; height: 48px; background: var(--yellow); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .why-item h5 { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+    .why-item p { color: #777; font-size: 13px; line-height: 1.6; }
+    .why-img img { width: 100%; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,.12); }
+
+    /* ── BOOKING CTA ── */
+    .book-cta { background: linear-gradient(135deg, var(--dark), #0f3460); color: #fff; text-align: center; padding: 80px 20px; }
+    .book-cta h2 { font-size: clamp(24px,4vw,42px); font-weight: 700; margin-bottom: 14px; }
+    .book-cta h2 span { color: var(--yellow); }
+    .book-cta p { color: #aaa; margin-bottom: 32px; font-size: 15px; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-call { display: inline-flex; align-items: center; gap: 8px; background: var(--yellow); color: #000; padding: 14px 28px; border-radius: 30px; font-size: 15px; font-weight: 700; transition: background .2s; }
+    .btn-call:hover { background: var(--accent); }
+    .btn-wa { display: inline-flex; align-items: center; gap: 8px; background: #25D366; color: #fff; padding: 14px 28px; border-radius: 30px; font-size: 15px; font-weight: 700; transition: background .2s; }
+    .btn-wa:hover { background: #1fad55; }
+
+    /* ── REVIEWS ── */
+    .reviews { background: var(--gray); }
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .review-card { background: #fff; border-radius: 14px; padding: 22px; box-shadow: 0 4px 16px rgba(0,0,0,.07); }
+    .reviewer { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .reviewer img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; }
+    .reviewer-info h5 { font-size: 14px; font-weight: 700; color: var(--dark); }
+    .reviewer-info span { font-size: 12px; color: #999; }
+    .stars { color: #f5c518; font-size: 13px; margin-bottom: 8px; }
+    .review-card p { font-size: 13px; color: #666; line-height: 1.6; }
+
+    /* ── FAQ ── */
+    .faq { background: #fff; }
+    .faq-list { max-width: 750px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+    .faq-item { border: 1.5px solid #eee; border-radius: 12px; overflow: hidden; }
+    .faq-q {
+      padding: 16px 20px; font-size: 14px; font-weight: 600; color: var(--dark);
+      cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+      background: #fff; transition: background .2s;
+    }
+    .faq-q:hover { background: #fffbea; }
+    .faq-q i { color: var(--yellow); transition: transform .3s; font-size: 12px; }
+    .faq-a { display: none; padding: 0 20px 16px; font-size: 13px; color: #666; line-height: 1.7; border-top: 1px solid #f0f0f0; background: #fafafa; }
+    .faq-item.open .faq-a { display: block; }
+    .faq-item.open .faq-q i { transform: rotate(180deg); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--darker); color: #ccc; padding: 60px 20px 20px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 32px; max-width: 1100px; margin: 0 auto 40px; }
+    .footer-brand .logo-text { font-size: 22px; color: #fff; }
+    .footer-brand p { margin-top: 12px; font-size: 13px; line-height: 1.7; color: #999; }
+    .footer-brand .soc { display: flex; gap: 12px; margin-top: 16px; }
+    .footer-brand .soc a { width: 34px; height: 34px; background: rgba(255,255,255,.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ccc; transition: all .2s; }
+    .footer-brand .soc a:hover { background: var(--yellow); color: #000; }
+    .footer-col h4 { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 14px; border-bottom: 2px solid var(--yellow); padding-bottom: 6px; display: inline-block; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-col ul li a { color: #999; font-size: 13px; transition: color .2s; }
+    .footer-col ul li a:hover { color: var(--yellow); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding-top: 18px; text-align: center; font-size: 13px; color: #666; max-width: 1100px; margin: 0 auto; }
+
+    /* ── FLOATING WHATSAPP ── */
+    .wa-float {
+      position: fixed; bottom: 24px; right: 24px; z-index: 999;
+      width: 56px; height: 56px; background: #25D366; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; color: #fff; box-shadow: 0 4px 20px rgba(37,211,102,.5);
+      transition: transform .2s;
+    }
+    .wa-float:hover { transform: scale(1.1); }
+
+    /* ── MOBILE ── */
+    @media(max-width:900px) {
+      .about-grid, .why-grid { grid-template-columns: 1fr; }
+      .why-img { order: -1; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media(max-width:700px) {
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: #fff; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,.1); gap: 16px; }
+      .nav-links.open { display: flex; }
+      .hamburger { display: block; }
+      .steps { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; gap: 24px; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="tel:+919822119033"><i class="fas fa-phone"></i> +91 98221 19033</a>
+  <div class="social-icons">
+    <a href="#"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-youtube"></i></a>
+    <a href="https://wa.me/919822119033"><i class="fab fa-whatsapp"></i></a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">
+    <div>
+      <div class="logo-text">Shubham <span>Travels</span></div>
+      <div class="logo-sub">Cab & Taxi Service</div>
+    </div>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#">Home</a></li>
+    <li><a href="#fleet">Fleet</a></li>
+    <li><a href="#routes">Routes</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li>
+      <a href="https://wa.me/919822119033" class="nav-cta">
+        <i class="fab fa-whatsapp"></i> Book Now
+      </a>
+    </li>
+  </ul>
+  <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+    <i class="fas fa-bars"></i>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <h1>Best Cab &amp; Taxi Service<br/><span>Shubham Travels</span></h1>
+    <p>Affordable, Safe &amp; Reliable outstation cab booking across Maharashtra &amp; India</p>
+
+    <!-- BOOKING FORM -->
+    <div class="book-form">
+      <h3>📍 Book Your Cab</h3>
+      <div class="trip-tabs">
+        <div class="trip-tab active" onclick="setTab(this)">Oneway</div>
+        <div class="trip-tab" onclick="setTab(this)">Round Trip</div>
+        <div class="trip-tab" onclick="setTab(this)">Rental</div>
+        <div class="trip-tab" onclick="setTab(this)">Self Drive</div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Pickup Location</label>
+          <select>
+            <option>Nashik, Maharashtra</option>
+            <option>Mumbai, Maharashtra</option>
+            <option>Pune, Maharashtra</option>
+            <option>Shirdi, Maharashtra</option>
+            <option>Aurangabad, Maharashtra</option>
+            <option>Surat, Gujarat</option>
+            <option>Goa, India</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Drop Location</label>
+          <select>
+            <option>Mumbai, Maharashtra</option>
+            <option>Nashik, Maharashtra</option>
+            <option>Pune, Maharashtra</option>
+            <option>Shirdi, Maharashtra</option>
+            <option>Aurangabad, Maharashtra</option>
+            <option>Surat, Gujarat</option>
+            <option>Goa, India</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Pickup Date</label>
+          <input type="date" />
+        </div>
+        <div class="form-group">
+          <label>Pickup Time</label>
+          <input type="time" />
+        </div>
+      </div>
+      <a href="https://wa.me/919822119033?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20a%20cab." target="_blank">
+        <button class="btn-book"><i class="fab fa-whatsapp"></i> Send Booking on WhatsApp</button>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img">
+        <img src="https://images.unsplash.com/photo-1506521781263-d8422e82f27a?w=800&q=80" alt="Shubham Travels Cab" />
+      </div>
+      <div class="about-text">
+        <h2>About <span>Shubham Travels</span></h2>
+        <p>We are a trusted cab and taxi booking service operating across Maharashtra, Goa and beyond. With Shubham Travels, you get safe, comfortable and affordable rides — whether it's a local trip, airport transfer or a multi-day outstation journey.</p>
+        <p>Our fleet includes a wide range of vehicles to suit all group sizes. Every driver is registered, verified and trained to give you the best travel experience.</p>
+        <div class="about-badges">
+          <div class="badge"><span>✔</span> All Car Categories</div>
+          <div class="badge"><span>✔</span> Registered Drivers</div>
+          <div class="badge"><span>✔</span> Round Trip Rentals</div>
+          <div class="badge"><span>✔</span> 24/7 Support</div>
+        </div>
+        <div class="features-row">
+          <div class="feat-item"><div class="feat-icon"><i class="fas fa-user-check"></i></div> Verified Drivers</div>
+          <div class="feat-item"><div class="feat-icon"><i class="fas fa-headset"></i></div> 24/7 Support</div>
+          <div class="feat-item"><div class="feat-icon"><i class="fas fa-sync-alt"></i></div> Round Trips</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLEET -->
+<section class="fleet" id="fleet">
+  <div class="container">
+    <div class="section-title">
+      <h2>Our Fleet</h2>
+      <p>Choose from a wide range of well-maintained vehicles</p>
+      <div class="line"></div>
+    </div>
+    <div class="fleet-grid">
+      <div class="car-card">
+        <img src="https://www.sairamcabservice.com/images/swift1-new.png" alt="Swift Dzire" />
+        <div class="guests">5 Guests</div>
+        <h4>Swift Dzire</h4>
+        <a href="https://wa.me/919822119033?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Swift%20Dzire." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
+      </div>
+      <div class="car-card">
+        <img src="https://www.sairamcabservice.com/images/ertiga-new1.png" alt="Ertiga" />
+        <div class="guests">7 Guests</div>
+        <h4>Maruti Suzuki Ertiga</h4>
+        <a href="https://wa.me/919822119033?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Ertiga." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
+      </div>
+      <div class="car-card">
+        <img src="https://www.sairamcabservice.com/images/kia_carne%20new.png" alt="Kia Carens" />
+        <div class="guests">7 Guests</div>
+        <h4>Kia Carens</h4>
+        <a href="https://wa.me/919822119033?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Kia%20Carens." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
+      </div>
+      <div class="car-card">
+        <img src="https://www.sairamcabservice.com/images/innova_crysta-new.png" alt="Innova Crysta" />
+        <div class="guests">8 Guests</div>
+        <h4>Innova Crysta</h4>
+        <a href="https://wa.me/919822119033?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Innova%20Crysta." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
+      </div>
+      <div class="car-card">
+        <img src="https://www.sairamcabservice.com/images/TEtios.png" alt="Etios" />
+        <div class="guests">5 Guests</div>
+        <h4>Toyota Etios</h4>
+        <a href="https://wa.me/919822119033?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Etios." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
+      </div>
+      <div class="car-card">
+        <img src="https://www.sairamcabservice.com/images/innova-new.png" alt="Innova" />
+        <div class="guests">8 Guests</div>
+        <h4>Innova</h4>
+        <a href="https://wa.me/919822119033?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Innova." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-grid">
+    <div>
+      <div class="stat-num">10+</div>
+      <div class="stat-label">States Covered</div>
+    </div>
+    <div>
+      <div class="stat-num">50,000+</div>
+      <div class="stat-label">Rides Delivered</div>
+    </div>
+    <div>
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Customer Support</div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-title">
+      <h2>Our Services</h2>
+      <p>Complete travel solutions for every need</p>
+      <div class="line"></div>
+    </div>
+    <div class="services-grid">
+      <div class="svc-card">
+        <div class="svc-icon">✈️</div>
+        <h4>Airport Transfers</h4>
+        <p>Reliable airport pick-up and drop service for any airport in India. Book anytime — early morning or late night.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🛣️</div>
+        <h4>Outstation Trips</h4>
+        <p>One-way and round trip outstation cab service across Maharashtra, Goa, Gujarat and beyond at best prices.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🏙️</div>
+        <h4>Local City Cab</h4>
+        <p>Hourly rental cab service for local travel within city. Available for half day and full day packages.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">💼</div>
+        <h4>Corporate &amp; Events</h4>
+        <p>Comfortable cab service for corporate meetings, conferences, weddings, and special events.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="container">
+    <div class="section-title">
+      <h2>How Booking Works</h2>
+      <p>Three simple steps to get your cab</p>
+      <div class="line"></div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Contact Us</h4>
+        <p>Call or WhatsApp us with your pickup location, drop location, and travel date.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Get Confirmation</h4>
+        <p>Receive instant booking confirmation with driver details 1 hour before pickup.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Enjoy Your Ride</h4>
+        <p>Driver arrives on time. Sit back and enjoy a safe, comfortable journey.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROUTES -->
+<section class="routes" id="routes">
+  <div class="container">
+    <div class="section-title">
+      <h2>Popular Routes We Serve</h2>
+      <p>One-way and round trip cab service across Maharashtra</p>
+      <div class="line"></div>
+    </div>
+    <div class="routes-grid">
+      <div class="route-pill"><i class="fas fa-circle"></i> Nashik → Mumbai</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Nashik → Pune</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Nashik → Shirdi</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Nashik → Goa</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Mumbai → Nashik</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Mumbai → Pune</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Mumbai → Shirdi</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Mumbai → Goa</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Pune → Nashik</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Pune → Mumbai</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Pune → Shirdi</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Pune → Goa</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Shirdi → Nashik</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Shirdi → Mumbai</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Shirdi → Pune</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Goa → Mumbai</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Aurangabad → Nashik</div>
+      <div class="route-pill"><i class="fas fa-circle"></i> Aurangabad → Mumbai</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section>
+  <div class="container">
+    <div class="section-title">
+      <h2>Why Choose Shubham Travels?</h2>
+      <p>We focus on punctuality, safety and customer satisfaction</p>
+      <div class="line"></div>
+    </div>
+    <div class="why-grid">
+      <div class="why-list">
+        <div class="why-item">
+          <div class="why-icon">🚕</div>
+          <div>
+            <h5>24/7 Taxi Service</h5>
+            <p>We are available round the clock for local, airport and outstation rides — any time you need us.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">👨‍✈️</div>
+          <div>
+            <h5>Verified &amp; Experienced Drivers</h5>
+            <p>All our drivers are background-checked, licensed and trained for long-distance highway travel.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">💰</div>
+          <div>
+            <h5>Transparent Pricing</h5>
+            <p>No hidden charges. What we quote is what you pay — with multiple payment options available.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">💺</div>
+          <div>
+            <h5>Clean &amp; Comfortable Vehicles</h5>
+            <p>All our cabs are well-maintained, AC-equipped and cleaned before every ride.</p>
+          </div>
+        </div>
+      </div>
+      <div class="why-img">
+        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=700&q=80" alt="Comfortable Cab" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING CTA -->
+<div class="book-cta">
+  <div class="container">
+    <h2>Easy &amp; Fast Cab Booking on <span>Call &amp; WhatsApp</span></h2>
+    <p>Book your cab instantly — no app needed. Just call or send a WhatsApp message and we'll confirm within minutes.</p>
+    <div class="cta-btns">
+      <a href="tel:+919822119033" class="btn-call"><i class="fas fa-phone"></i> Call Now</a>
+      <a href="https://wa.me/919822119033?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20a%20cab." class="btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp Now</a>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<section class="reviews">
+  <div class="container">
+    <div class="section-title">
+      <h2>What Our Customers Say</h2>
+      <p>Real experiences from happy travellers across Maharashtra</p>
+      <div class="line"></div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="reviewer">
+          <img src="https://i.pravatar.cc/70?img=1" alt="Amit" />
+          <div class="reviewer-info"><h5>Amit Sharma</h5><span>Pune</span></div>
+        </div>
+        <div class="stars">★★★★★</div>
+        <p>Excellent cab service! Driver was polite and on time. Highly recommended for outstation trips.</p>
+      </div>
+      <div class="review-card">
+        <div class="reviewer">
+          <img src="https://i.pravatar.cc/70?img=2" alt="Sneha" />
+          <div class="reviewer-info"><h5>Sneha Patil</h5><span>Mumbai</span></div>
+        </div>
+        <div class="stars">★★★★☆</div>
+        <p>Smooth booking and clean car. The service was worth every rupee. Will book again.</p>
+      </div>
+      <div class="review-card">
+        <div class="reviewer">
+          <img src="https://i.pravatar.cc/70?img=3" alt="Rohan" />
+          <div class="reviewer-info"><h5>Rohan Deshmukh</h5><span>Nashik</span></div>
+        </div>
+        <div class="stars">★★★★★</div>
+        <p>Reliable and affordable taxi service. The driver was courteous throughout the journey.</p>
+      </div>
+      <div class="review-card">
+        <div class="reviewer">
+          <img src="https://i.pravatar.cc/70?img=4" alt="Priya" />
+          <div class="reviewer-info"><h5>Priya Nair</h5><span>Thane</span></div>
+        </div>
+        <div class="stars">★★★★★</div>
+        <p>Fantastic experience! The car was neat and the driver was very helpful throughout.</p>
+      </div>
+      <div class="review-card">
+        <div class="reviewer">
+          <img src="https://i.pravatar.cc/70?img=5" alt="Karan" />
+          <div class="reviewer-info"><h5>Karan Joshi</h5><span>Aurangabad</span></div>
+        </div>
+        <div class="stars">★★★★☆</div>
+        <p>Easy to book and comfortable journey. Would love to travel with Shubham Travels again.</p>
+      </div>
+      <div class="review-card">
+        <div class="reviewer">
+          <img src="https://i.pravatar.cc/70?img=6" alt="Neha" />
+          <div class="reviewer-info"><h5>Neha Kulkarni</h5><span>Kolhapur</span></div>
+        </div>
+        <div class="stars">★★★★★</div>
+        <p>Cab arrived on time. Great service, safe driving and very reasonable pricing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-title">
+      <h2>Frequently Asked Questions</h2>
+      <p>Everything you need to know about booking with us</p>
+      <div class="line"></div>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How do I book my first cab? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">You can book by filling the form above, clicking the WhatsApp button or calling us directly at <a href="tel:+919822119033">+91 98221 19033</a>. We'll confirm your booking instantly.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What payment methods are accepted? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">We accept Cash, UPI (GPay, PhonePe, Paytm), Direct Bank Transfer and Debit/Credit Cards — whichever is convenient for you.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How long does it take to confirm the cab? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Booking is confirmed instantly. Driver's name, contact and vehicle details are sent via WhatsApp and SMS 1 hour before your pickup time.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I cancel my booking? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Yes, cancellations are accepted. Please contact us at least 2 hours before the pickup time. Our executive will guide you through the cancellation process.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Are your drivers verified and safe? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Yes. All our drivers are registered, background-checked and have valid commercial driving licenses. Your safety is our top priority.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Do you provide outstation cabs for multiple days? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Absolutely! We offer multi-day outstation cab rentals across Maharashtra, Goa, Gujarat and other states. Just let us know your itinerary.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-text">Shubham <span style="color:var(--yellow)">Travels</span></div>
+      <p>Trusted cab and taxi service provider across Maharashtra and India. Safe, affordable, and always on time.</p>
+      <div class="soc">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="https://wa.me/919822119033"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Nashik</h4>
+      <ul>
+        <li><a href="#">Nashik → Pune</a></li>
+        <li><a href="#">Nashik → Mumbai</a></li>
+        <li><a href="#">Nashik → Shirdi</a></li>
+        <li><a href="#">Nashik → Goa</a></li>
+        <li><a href="#">Nashik → Aurangabad</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Mumbai</h4>
+      <ul>
+        <li><a href="#">Mumbai → Nashik</a></li>
+        <li><a href="#">Mumbai → Pune</a></li>
+        <li><a href="#">Mumbai → Shirdi</a></li>
+        <li><a href="#">Mumbai → Goa</a></li>
+        <li><a href="#">Mumbai → Aurangabad</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Pune</h4>
+      <ul>
+        <li><a href="#">Pune → Nashik</a></li>
+        <li><a href="#">Pune → Mumbai</a></li>
+        <li><a href="#">Pune → Shirdi</a></li>
+        <li><a href="#">Pune → Goa</a></li>
+        <li><a href="#">Pune → Aurangabad</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#fleet">Our Fleet</a></li>
+        <li><a href="#routes">Routes</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="tel:+919822119033">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>Copyright © 2026 Shubham Travels. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/919822119033?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20a%20cab." class="wa-float" target="_blank">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<script>
+  function setTab(el) {
+    document.querySelectorAll('.trip-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>

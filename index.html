@@ -172,7 +172,7 @@
 
     /* ── STATS ── */
     .stats { background: var(--dark); color: #fff; padding: 60px 20px; }
-    .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 30px; text-align: center; max-width: 700px; margin: 0 auto; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; text-align: center; max-width: 900px; margin: 0 auto; }
     .stat-num { font-size: 52px; font-weight: 800; color: var(--yellow); line-height: 1; }
     .stat-label { margin-top: 8px; font-size: 14px; color: #aaa; }
 
@@ -334,7 +334,8 @@
   <div class="hero-bg"></div>
   <div class="hero-content">
     <h1>Best Cab &amp; Taxi Service<br/><span>Shubham Travels</span></h1>
-    <p>Affordable, Safe &amp; Reliable outstation cab booking across Maharashtra &amp; India</p>
+    <p style="margin-top: 15px;"><span style="background: var(--yellow); color: #000; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 13px; margin-right: 8px; display: inline-block; box-shadow: 0 4px 12px rgba(245,197,24,0.35);">SINCE 2002</span> <strong style="color: #fff; font-size: 17px; font-weight: 600; letter-spacing: 0.5px;">20+ Years of Experience</strong></p>
+    <p style="margin-top: 8px;">Affordable, Safe &amp; Reliable outstation cab booking across Maharashtra &amp; India</p>
 
     <!-- BOOKING FORM -->
     <div class="book-form">
@@ -400,6 +401,7 @@
         <p>We are a trusted cab and taxi booking service operating across Maharashtra, Goa and beyond. With Shubham Travels, you get safe, comfortable and affordable rides — whether it's a local trip, airport transfer or a multi-day outstation journey.</p>
         <p>Our fleet includes a wide range of vehicles to suit all group sizes. Every driver is registered, verified and trained to give you the best travel experience.</p>
         <div class="about-badges">
+          <div class="badge" style="background: var(--yellow); color: #000; font-weight: 700; box-shadow: 0 4px 10px rgba(245,197,24,.3); border-color: var(--yellow);">🏆 Since 2002 | 20+ Years Experience</div>
           <div class="badge"><span>✔</span> All Car Categories</div>
           <div class="badge"><span>✔</span> Registered Drivers</div>
           <div class="badge"><span>✔</span> Round Trip Rentals</div>
@@ -467,6 +469,10 @@
 <!-- STATS -->
 <div class="stats">
   <div class="stats-grid">
+    <div>
+      <div class="stat-num">20+</div>
+      <div class="stat-label">Years of Experience (Since 2002)</div>
+    </div>
     <div>
       <div class="stat-num">10+</div>
       <div class="stat-label">States Covered</div>
@@ -736,7 +742,13 @@
     <div class="footer-brand">
       <div class="logo-text">Shubham <span style="color:var(--yellow)">Travels</span></div>
       <p>Trusted cab and taxi service provider across Maharashtra and India. Safe, affordable, and always on time.</p>
-      <div class="soc">
+      <p style="margin-top: 12px; font-size: 13px; color: #fff; font-weight: 500; line-height: 1.6;">
+        📞 Call Us:<br>
+        <a href="tel:+919822119033" style="color:var(--yellow)">+91 98221 19033</a><br>
+        <a href="tel:+918080501197" style="color:var(--yellow)">+91 80805 01197</a><br>
+        <a href="tel:+919923363359" style="color:var(--yellow)">+91 99233 63359</a>
+      </p>
+      <div class="soc" style="margin-top: 15px;">
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-instagram"></i></a>
         <a href="#"><i class="fab fa-youtube"></i></a>
@@ -806,6 +818,38 @@
     document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
   }
+
+  // Load balancing script for the 3 booking numbers
+  document.addEventListener("DOMContentLoaded", function() {
+    const bookingNumbers = [
+      { raw: '9822119033', formatted: '+91 98221 19033' },
+      { raw: '8080501197', formatted: '+91 80805 01197' },
+      { raw: '9923363359', formatted: '+91 99233 63359' }
+    ];
+    
+    function getRandomNumber() {
+      return bookingNumbers[Math.floor(Math.random() * bookingNumbers.length)];
+    }
+
+    // Update WhatsApp links to rotate leads dynamically
+    document.querySelectorAll('a[href^="https://wa.me/"]').forEach(link => {
+      const num = getRandomNumber();
+      link.href = link.href.replace(/wa\.me\/\d+/, `wa.me/91${num.raw}`);
+    });
+
+    // Update tel links to rotate calls dynamically
+    document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+      const num = getRandomNumber();
+      link.href = `tel:+91${num.raw}`;
+      // If the link text has a phone number format, update the display text too
+      if (/\d/.test(link.innerText) && !link.closest('.footer-brand')) {
+        const icon = link.querySelector('i');
+        link.innerHTML = '';
+        if (icon) link.appendChild(icon);
+        link.appendChild(document.createTextNode(' ' + num.formatted));
+      }
+    });
+  });
 </script>
 </body>
 </html>

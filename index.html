@@ -349,7 +349,7 @@
       <div class="form-row">
         <div class="form-group">
           <label>Pickup Location</label>
-          <select>
+          <select id="pickupLoc">
             <option>Nashik, Maharashtra</option>
             <option>Mumbai, Maharashtra</option>
             <option>Pune, Maharashtra</option>
@@ -361,7 +361,7 @@
         </div>
         <div class="form-group">
           <label>Drop Location</label>
-          <select>
+          <select id="dropLoc">
             <option>Mumbai, Maharashtra</option>
             <option>Nashik, Maharashtra</option>
             <option>Pune, Maharashtra</option>
@@ -375,16 +375,14 @@
       <div class="form-row">
         <div class="form-group">
           <label>Pickup Date</label>
-          <input type="date" />
+          <input type="date" id="pickupDate" />
         </div>
         <div class="form-group">
           <label>Pickup Time</label>
-          <input type="time" />
+          <input type="time" id="pickupTime" />
         </div>
       </div>
-      <a href="https://wa.me/919822119033?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20a%20cab." target="_blank">
-        <button class="btn-book"><i class="fab fa-whatsapp"></i> Send Booking on WhatsApp</button>
-      </a>
+      <button class="btn-book" onclick="sendBooking(event)"><i class="fab fa-whatsapp"></i> Send Booking on WhatsApp</button>
     </div>
   </div>
 </section>
@@ -817,6 +815,44 @@
     const isOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
+  }
+
+  // Handle Dynamic WhatsApp Booking
+  function sendBooking(event) {
+    if (event) event.preventDefault();
+    
+    const tripType = document.querySelector('.trip-tab.active') ? document.querySelector('.trip-tab.active').innerText : 'Oneway';
+    const pickup = document.getElementById('pickupLoc').value;
+    const drop = document.getElementById('dropLoc').value;
+    const date = document.getElementById('pickupDate').value;
+    const time = document.getElementById('pickupTime').value;
+
+    if (!date || !time) {
+      alert("Please select both Pickup Date and Pickup Time before booking.");
+      return;
+    }
+
+    // Format standard date format for a friendly layout
+    const formattedDate = new Date(date).toLocaleDateString('en-US', {
+      weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+    });
+
+    // Convert 24hr time to 12hr AM/PM format
+    const [hours, minutes] = time.split(':');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedTime = `${hours % 12 || 12}:${minutes} ${ampm}`;
+
+    // Format the booking details message beautifully
+    const message = `Hello Shubham Travels, I would like to book a cab.\n\n📋 *Booking Details:*\n• *Trip Type:* ${tripType}\n• *Pickup Location:* ${pickup}\n• *Drop Location:* ${drop}\n• *Pickup Date:* ${formattedDate}\n• *Pickup Time:* ${formattedTime}`;
+
+    // Get a random active number from our load balancing list
+    const bookingNumbers = ['9822119033', '8080501197', '9923363359'];
+    const randomIndex = Math.floor(Math.random() * bookingNumbers.length);
+    const selectedNumber = '91' + bookingNumbers[randomIndex];
+
+    // Open WhatsApp in a new tab
+    const waUrl = `https://wa.me/${selectedNumber}?text=${encodeURIComponent(message)}`;
+    window.open(waUrl, '_blank');
   }
 
   // Load balancing script for the 3 booking numbers

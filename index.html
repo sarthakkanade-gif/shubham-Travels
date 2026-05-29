@@ -274,6 +274,49 @@
     }
     .wa-float:hover { transform: scale(1.1); }
 
+    /* ── LANGUAGE SWITCHER ── */
+    .lang-switcher {
+      display: inline-flex;
+      align-items: center;
+      margin-left: 10px;
+    }
+    .lang-select {
+      background: #fafafa;
+      border: 1.5px solid #ddd;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+      padding-right: 30px;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231a1a2e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 12px;
+    }
+    .lang-select:hover {
+      border-color: var(--yellow);
+      background-color: #fffbea;
+    }
+    @media(max-width:700px) {
+      .lang-switcher {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+        justify-content: center;
+      }
+      .lang-select {
+        width: 100%;
+        max-width: 200px;
+        text-align: center;
+      }
+    }
+
     /* ── MOBILE ── */
     @media(max-width:900px) {
       .about-grid, .why-grid { grid-template-columns: 1fr; }
@@ -319,6 +362,15 @@
     <li><a href="#services">Services</a></li>
     <li><a href="#faq">FAQ</a></li>
     <li>
+      <div class="lang-switcher">
+        <select id="langSelect" onchange="changeLanguage(this.value)" class="lang-select">
+          <option value="en">🇬🇧 English</option>
+          <option value="hi">🇮🇳 हिंदी</option>
+          <option value="mr">🇮🇳 मराठी</option>
+        </select>
+      </div>
+    </li>
+    <li>
       <a href="https://wa.me/919822119033" class="nav-cta">
         <i class="fab fa-whatsapp"></i> Book Now
       </a>
@@ -334,7 +386,7 @@
   <div class="hero-bg"></div>
   <div class="hero-content">
     <h1>Best Cab &amp; Taxi Service<br/><span>Shubham Travels</span></h1>
-    <p style="margin-top: 15px;"><span style="background: var(--yellow); color: #000; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 13px; margin-right: 8px; display: inline-block; box-shadow: 0 4px 12px rgba(245,197,24,0.35);">SINCE 2002</span> <strong style="color: #fff; font-size: 17px; font-weight: 600; letter-spacing: 0.5px;">20+ Years of Experience</strong></p>
+    <p style="margin-top: 15px;"><span style="background: var(--yellow); color: #000; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 13px; margin-right: 8px; display: inline-block; box-shadow: 0 4px 12px rgba(245,197,24,0.35);">SINCE 2002</span> <strong style="color: #fff; font-size: 17px; font-weight: 600; letter-spacing: 0.5px;">22+ Years of Experience</strong></p>
     <p style="margin-top: 8px;">Affordable, Safe &amp; Reliable outstation cab booking across Maharashtra &amp; India</p>
 
     <!-- BOOKING FORM -->
@@ -399,7 +451,7 @@
         <p>We are a trusted cab and taxi booking service operating across Maharashtra, Goa and beyond. With Shubham Travels, you get safe, comfortable and affordable rides — whether it's a local trip, airport transfer or a multi-day outstation journey.</p>
         <p>Our fleet includes a wide range of vehicles to suit all group sizes. Every driver is registered, verified and trained to give you the best travel experience.</p>
         <div class="about-badges">
-          <div class="badge" style="background: var(--yellow); color: #000; font-weight: 700; box-shadow: 0 4px 10px rgba(245,197,24,.3); border-color: var(--yellow);">🏆 Since 2002 | 20+ Years Experience</div>
+          <div class="badge" style="background: var(--yellow); color: #000; font-weight: 700; box-shadow: 0 4px 10px rgba(245,197,24,.3); border-color: var(--yellow);">🏆 Since 2002 | 22+ Years Experience</div>
           <div class="badge"><span>✔</span> All Car Categories</div>
           <div class="badge"><span>✔</span> Registered Drivers</div>
           <div class="badge"><span>✔</span> Round Trip Rentals</div>
@@ -468,7 +520,7 @@
 <div class="stats">
   <div class="stats-grid">
     <div>
-      <div class="stat-num">20+</div>
+      <div class="stat-num">22+</div>
       <div class="stat-label">Years of Experience (Since 2002)</div>
     </div>
     <div>
@@ -885,7 +937,545 @@
         link.appendChild(document.createTextNode(' ' + num.formatted));
       }
     });
+
+    // Initialize Language from localStorage
+    const savedLang = localStorage.getItem('shubham_lang') || 'en';
+    document.getElementById('langSelect').value = savedLang;
+    changeLanguage(savedLang);
   });
+
+  // Translation Database
+  const translations = {
+    en: {
+      logo_sub: 'Cab & Taxi Service',
+      nav_home: 'Home',
+      nav_fleet: 'Fleet',
+      nav_routes: 'Routes',
+      nav_services: 'Services',
+      nav_faq: 'FAQ',
+      nav_book: 'Book Now',
+      hero_title: 'Best Cab & Taxi Service<br><span>Shubham Travels</span>',
+      hero_since: 'SINCE 2002',
+      hero_exp: '22+ Years of Experience',
+      hero_desc: 'Affordable, Safe & Reliable outstation cab booking across Maharashtra & India',
+      form_title: '📍 Book Your Cab',
+      tab_oneway: 'Oneway',
+      tab_round: 'Round Trip',
+      tab_rental: 'Rental',
+      tab_self: 'Self Drive',
+      label_pickup: 'Pickup Location',
+      label_drop: 'Drop Location',
+      label_date: 'Pickup Date',
+      label_time: 'Pickup Time',
+      btn_whatsapp: 'Send Booking on WhatsApp',
+      about_title: 'About <span>Shubham Travels</span>',
+      about_p1: 'We are a trusted cab and taxi booking service operating across Maharashtra, Goa and beyond. With Shubham Travels, you get safe, comfortable and affordable rides — whether it\'s a local trip, airport transfer or a multi-day outstation journey.',
+      about_p2: 'Our fleet includes a wide range of vehicles to suit all group sizes. Every driver is registered, verified and trained to give you the best travel experience.',
+      badge_exp: '🏆 Since 2002 | 22+ Years Experience',
+      badge_cars: 'All Car Categories',
+      badge_drivers: 'Registered Drivers',
+      badge_rentals: 'Round Trip Rentals',
+      badge_support: '24/7 Support',
+      feat_drivers: 'Verified Drivers',
+      feat_support: '24/7 Support',
+      feat_trips: 'Round Trips',
+      fleet_title: 'Our Fleet',
+      fleet_desc: 'Choose from a wide range of well-maintained vehicles',
+      stat_exp: 'Years of Experience (Since 2002)',
+      stat_states: 'States Covered',
+      stat_rides: 'Rides Delivered',
+      stat_support: 'Customer Support',
+      svc_title: 'Our Services',
+      svc_desc: 'Complete travel solutions for every need',
+      svc_ap_t: 'Airport Transfers',
+      svc_ap_d: 'Reliable airport pick-up and drop service for any airport in India. Book anytime — early morning or late night.',
+      svc_os_t: 'Outstation Trips',
+      svc_os_d: 'One-way and round trip outstation cab service across Maharashtra, Goa, Gujarat and beyond at best prices.',
+      svc_lc_t: 'Local City Cab',
+      svc_lc_d: 'Hourly rental cab service for local travel within city. Available for half day and full day packages.',
+      svc_cp_t: 'Corporate & Events',
+      svc_cp_d: 'Comfortable cab service for corporate meetings, conferences, weddings, and special events.',
+      how_title: 'How Booking Works',
+      how_desc: 'Three simple steps to get your cab',
+      step1_t: 'Contact Us',
+      step1_d: 'Call or WhatsApp us with your pickup location, drop location, and travel date.',
+      step2_t: 'Get Confirmation',
+      step2_d: 'Receive instant booking confirmation with driver details 1 hour before pickup.',
+      step3_t: 'Enjoy Your Ride',
+      step3_d: 'Driver arrives on time. Sit back and enjoy a safe, comfortable journey.',
+      routes_title: 'Popular Routes We Serve',
+      routes_desc: 'One-way and round trip cab service across Maharashtra',
+      why_title: 'Why Choose Shubham Travels?',
+      why_desc: 'We focus on punctuality, safety and customer satisfaction',
+      why_1_t: '24/7 Taxi Service',
+      why_1_d: 'We are available round the clock for local, airport and outstation rides — any time you need us.',
+      why_2_t: 'Verified & Experienced Drivers',
+      why_2_d: 'All our drivers are background-checked, licensed and trained for long-distance highway travel.',
+      why_3_t: 'Transparent Pricing',
+      why_3_d: 'No hidden charges. What we quote is what you pay — with multiple payment options available.',
+      why_4_t: 'Clean & Comfortable Vehicles',
+      why_4_d: 'All our cabs are well-maintained, AC-equipped and cleaned before every ride.',
+      cta_title: 'Easy & Fast Cab Booking on <span>Call & WhatsApp</span>',
+      cta_desc: 'Book your cab instantly — no app needed. Just call or send a WhatsApp message and we\'ll confirm within minutes.',
+      btn_call: 'Call Now',
+      btn_wa: 'WhatsApp Now',
+      rev_title: 'What Our Customers Say',
+      rev_desc: 'Real experiences from happy travellers across Maharashtra',
+      rev_1: 'Excellent cab service! Driver was polite and on time. Highly recommended for outstation trips.',
+      rev_2: 'Smooth booking and clean car. The service was worth every rupee. Will book again.',
+      rev_3: 'Reliable and affordable taxi service. The driver was courteous throughout the journey.',
+      rev_4: 'Fantastic experience! The car was neat and the driver was very helpful throughout.',
+      rev_5: 'Easy to book and comfortable journey. Would love to travel with Shubham Travels again.',
+      rev_6: 'Cab arrived on time. Great service, safe driving and very reasonable pricing.',
+      faq_title: 'Frequently Asked Questions',
+      faq_desc: 'Everything you need to know about booking with us',
+      faq_q1: 'How do I book my first cab?',
+      faq_a1: 'You can book by filling the form above, clicking the WhatsApp button or calling us directly at ',
+      faq_a1_suffix: '. We\'ll confirm your booking instantly.',
+      faq_q2: 'What payment methods are accepted?',
+      faq_a2: 'We accept Cash, UPI (GPay, PhonePe, Paytm), Direct Bank Transfer and Debit/Credit Cards — whichever is convenient for you.',
+      faq_q3: 'How long does it take to confirm the cab?',
+      faq_a3: 'Booking is confirmed instantly. Driver\'s name, contact and vehicle details are sent via WhatsApp and SMS 1 hour before your pickup time.',
+      faq_q4: 'Can I cancel my booking?',
+      faq_a4: 'Yes, cancellations are accepted. Please contact us at least 2 hours before the pickup time. Our executive will guide you through the cancellation process.',
+      faq_q5: 'Are your drivers verified and safe?',
+      faq_a5: 'Yes. All our drivers are registered, background-checked and have valid commercial driving licenses. Your safety is our top priority.',
+      faq_q6: 'Do you provide outstation cabs for multiple days?',
+      faq_a6: 'Absolutely! We offer multi-day outstation cab rentals across Maharashtra, Goa, Gujarat and other states. Just let us know your itinerary.',
+      quick_links: 'Quick Links',
+      copyright: 'Copyright © 2026 Shubham Travels. All Rights Reserved.',
+      cities: {
+        'Nashik, Maharashtra': 'Nashik, Maharashtra',
+        'Mumbai, Maharashtra': 'Mumbai, Maharashtra',
+        'Pune, Maharashtra': 'Pune, Maharashtra',
+        'Shirdi, Maharashtra': 'Shirdi, Maharashtra',
+        'Aurangabad, Maharashtra': 'Aurangabad, Maharashtra',
+        'Surat, Gujarat': 'Surat, Gujarat',
+        'Goa, India': 'Goa, India'
+      }
+    },
+    hi: {
+      logo_sub: 'कैब और टैक्सी सेवा',
+      nav_home: 'होम',
+      nav_fleet: 'गाड़ियां',
+      nav_routes: 'मार्ग',
+      nav_services: 'सेवाएं',
+      nav_faq: 'प्रश्नोत्तरी',
+      nav_book: 'अभी बुक करें',
+      hero_title: 'सर्वश्रेष्ठ कैब और टैक्सी सेवा<br><span>शुभम ट्रैवल्स</span>',
+      hero_since: '2002 से',
+      hero_exp: '22+ वर्षों का अनुभव',
+      hero_desc: 'महाराष्ट्र और पूरे भारत में सस्ती, सुरक्षित और विश्वसनीय आउटस्टेशन कैब बुकिंग',
+      form_title: '📍 अपनी कैब बुक करें',
+      tab_oneway: 'वन-वे',
+      tab_round: 'राउंड ट्रिप',
+      tab_rental: 'रेंटल',
+      tab_self: 'सेल्फ ड्राइव',
+      label_pickup: 'पिकअप स्थान',
+      label_drop: 'ड्रॉप स्थान',
+      label_date: 'पिकअप की तारीख',
+      label_time: 'पिकअप का समय',
+      btn_whatsapp: 'व्हाट्सएप पर बुकिंग भेजें',
+      about_title: '<span>शुभम ट्रैवल्स</span> के बारे में',
+      about_p1: 'हम महाराष्ट्र, गोवा और उससे आगे संचालित होने वाली एक विश्वसनीय कैब और टैक्सी बुकिंग सेवा हैं। शुभम ट्रैवल्स के साथ, आपको सुरक्षित, आरामदायक और सस्ती सवारी मिलती है - चाहे वह स्थानीय यात्रा हो, एयरपोर्ट ट्रांसफर हो या बहु-दिवसीय आउटस्टेशन यात्रा हो।',
+      about_p2: 'हमारे बेड़े में सभी समूहों के आकार के लिए वाहनों की एक विस्तृत श्रृंखला शामिल है। हर ड्राइवर पंजीकृत, सत्यापित और आपको बेहतरीन यात्रा का अनुभव देने के लिए प्रशिक्षित है।',
+      badge_exp: '🏆 2002 से | 22+ वर्षों का अनुभव',
+      badge_cars: '<span>✔</span> सभी कार श्रेणियां',
+      badge_drivers: '<span>✔</span> पंजीकृत ड्राइवर',
+      badge_rentals: '<span>✔</span> राउंड ट्रिप रेंटल',
+      badge_support: '<span>✔</span> 24/7 ग्राहक सहायता',
+      feat_drivers: 'सत्यापित ड्राइवर',
+      feat_support: '24/7 सहायता',
+      feat_trips: 'राउंड ट्रिप्स',
+      fleet_title: 'हमारे वाहन (फ़्लीट)',
+      fleet_desc: 'अच्छी तरह से रखरखाव किए गए वाहनों की एक विस्तृत श्रृंखला से चुनें',
+      stat_exp: 'अनुभव के वर्ष (2002 से)',
+      stat_states: 'राज्यों में सेवा',
+      stat_rides: 'पूरी की गई यात्राएं',
+      stat_support: 'ग्राहक सहायता',
+      svc_title: 'हमारी सेवाएं',
+      svc_desc: 'हर ज़रूरत के लिए संपूर्ण यात्रा समाधान',
+      svc_ap_t: 'हवाई अड्डा ट्रांसफर',
+      svc_ap_d: 'भारत के किसी भी हवाई अड्डे के लिए विश्वसनीय पिक-अप और ड्रॉप सेवा। कभी भी बुक करें - सुबह जल्दी या देर रात।',
+      svc_os_t: 'बाहरी यात्राएं (आउटस्टेशन)',
+      svc_os_d: 'महाराष्ट्र, गोवा, गुजरात और उससे आगे सबसे अच्छे दामों पर एक-तरफा (वन-वे) और राउंड ट्रिप कैब सेवा।',
+      svc_lc_t: 'लोकल सिटी कैब',
+      svc_lc_d: 'शहर के भीतर स्थानीय यात्रा के लिए प्रति घंटा रेंटल कैब सेवा। आधे दिन और पूरे दिन के पैकेज के लिए उपलब्ध।',
+      svc_cp_t: 'कॉर्पोरेट और कार्यक्रम',
+      svc_cp_d: 'कॉर्पोरेट बैठकों, सम्मेलनों, शादियों और विशेष आयोजनों के लिए आरामदायक कैब सेवा।',
+      how_title: 'बुकिंग कैसे काम करती है',
+      how_desc: 'अपनी कैब प्राप्त करने के लिए तीन आसान चरण',
+      step1_t: 'हमसे संपर्क करें',
+      step1_d: 'अपने पिकअप स्थान, ड्रॉप स्थान और यात्रा की तारीख के साथ हमें कॉल या व्हाट्सएप करें।',
+      step2_t: 'पुष्टिकरण प्राप्त करें',
+      step2_d: 'पिकअप से 1 घंटे पहले ड्राइवर के विवरण के साथ त्वरित बुकिंग पुष्टिकरण प्राप्त करें।',
+      step3_t: 'यात्रा का आनंद लें',
+      step3_d: 'ड्राइवर समय पर पहुंचता है। आराम से बैठें और एक सुरक्षित, सुखद यात्रा का आनंद लें।',
+      routes_title: 'लोकप्रिय मार्ग जो हम सेवा देते हैं',
+      routes_desc: 'महाराष्ट्र भर में एक-तरफा (वन-वे) और राउंड ट्रिप कैब सेवा',
+      why_title: 'शुभम ट्रैवल्स क्यों चुनें?',
+      why_desc: 'हम समय की पाबंदी, सुरक्षा और ग्राहक संतुष्टि पर ध्यान केंद्रित करते हैं',
+      why_1_t: '24/7 कैब सेवा',
+      why_1_d: 'हम स्थानीय, हवाई अड्डे और बाहरी यात्राओं के लिए चौबीसों घंटे उपलब्ध हैं - जब भी आपको हमारी आवश्यकता हो।',
+      why_2_t: 'सत्यापित और अनुभवी ड्राइवर',
+      why_2_d: 'हमारे सभी ड्राइवरों की पृष्ठभूमि की जांच की जाती है, वे लाइसेंस प्राप्त हैं और लंबी दूरी की राजमार्ग यात्रा के लिए प्रशिक्षित हैं।',
+      why_3_t: 'पारदर्शी मूल्य निर्धारण',
+      why_3_d: 'कोई छिपा हुआ शुल्क नहीं। हम जो उद्धृत करते हैं वही आप भुगतान करते हैं - कई भुगतान विकल्प उपलब्ध हैं।',
+      why_4_t: 'स्वच्छ और आरामदायक वाहन',
+      why_4_d: 'हमारी सभी कैब अच्छी तरह से रखरखाव की जाती हैं, एसी से लैस हैं और हर सवारी से पहले साफ की जाती हैं।',
+      cta_title: '<span>कॉल और व्हाट्सएप</span> पर आसान और तेज़ कैब बुकिंग',
+      cta_desc: 'अपनी कैब तुरंत बुक करें - किसी ऐप की आवश्यकता नहीं है। बस कॉल करें या व्हाट्सएप संदेश भेजें और हम मिनटों में पुष्टि करेंगे।',
+      btn_call: 'अभी कॉल करें',
+      btn_wa: 'अभी व्हाट्सएप करें',
+      rev_title: 'हमारे ग्राहक क्या कहते हैं',
+      rev_desc: 'महाराष्ट्र भर के खुश यात्रियों के वास्तविक अनुभव',
+      rev_1: 'उत्कृष्ट कैब सेवा! ड्राइवर विनम्र और समय पर था। बाहरी यात्राओं के लिए अत्यधिक अनुशंसित।',
+      rev_2: 'सुचारू बुकिंग और साफ कार। सेवा हर रुपये के लायक थी। फिर से बुक करेंगे।',
+      rev_3: 'विश्वसनीय और सस्ती टैक्सी सेवा। पूरी यात्रा के दौरान ड्राइवर विनम्र था।',
+      rev_4: 'शानदार अनुभव! कार साफ थी और ड्राइवर पूरी तरह से बहुत मददगार था।',
+      rev_5: 'बुक करने में आसान और आरामदायक यात्रा। शुभम ट्रैवल्स के साथ फिर से यात्रा करना पसंद करेंगे।',
+      rev_6: 'कैब समय पर पहुंची। शानदार सेवा, सुरक्षित ड्राइविंग और बहुत उचित मूल्य निर्धारण।',
+      faq_title: 'अक्सर पूछे जाने वाले प्रश्न',
+      faq_desc: 'हमारे साथ बुकिंग के बारे में सब कुछ जो आपको जानना आवश्यक है',
+      faq_q1: 'मैं अपनी पहली कैब कैसे बुक करूँ?',
+      faq_a1: 'आप ऊपर दिए गए फॉर्म को भरकर, व्हाट्सएप बटन पर क्लिक करके या हमें सीधे कॉल करके बुक कर सकते हैं: ',
+      faq_a1_suffix: '। हम आपकी बुकिंग तुरंत कन्फर्म करेंगे।',
+      faq_q2: 'कौन से भुगतान तरीके स्वीकार किए जाते हैं?',
+      faq_a2: 'हम नकद, यूपीआई (जीपे, फोनपे, पेटीएम), प्रत्यक्ष बैंक हस्तांतरण और डेबिट/क्रेडिट कार्ड स्वीकार करते हैं - जो भी आपके लिए सुविधाजनक हो।',
+      faq_q3: 'कैब की पुष्टि होने में कितना समय लगता है?',
+      faq_a3: 'बुकिंग तुरंत कन्फर्म हो जाती है। पिकअप समय से 1 घंटे पहले ड्राइवर का नाम, संपर्क और वाहन का विवरण व्हाट्सएप और एसएमएस द्वारा भेजा जाता है।',
+      faq_q4: 'क्या मैं अपनी बुकिंग रद्द कर सकता हूँ?',
+      faq_a4: 'हाँ, रद्दीकरण स्वीकार किए जाते हैं। कृपया पिकअप समय से कम से कम 2 घंटे पहले हमसे संपर्क करें। हमारे कार्यकारी रद्दीकरण प्रक्रिया में आपका मार्गदर्शन करेंगे।',
+      faq_q5: 'क्या आपके ड्राइवर सत्यापित और सुरक्षित हैं?',
+      faq_a5: 'हाँ। हमारे सभी ड्राइवर पंजीकृत, पृष्ठभूमि-जांच किए गए हैं और उनके पास वैध वाणिज्यिक ड्राइविंग लाइसेंस हैं। आपकी सुरक्षा हमारी सर्वोच्च प्राथमिकता है।',
+      faq_q6: 'क्या आप कई दिनों के लिए आउटस्टेशन कैब प्रदान करते हैं?',
+      faq_a6: 'बिल्कुल! हम महाराष्ट्र, गोवा, गुजरात और अन्य राज्यों में बहु-दिवसीय आउटस्टेशन कैब किराए पर देते हैं। बस हमें अपना यात्रा कार्यक्रम बताएं।',
+      quick_links: 'महत्वपूर्ण लिंक्स',
+      copyright: 'कॉपीराइट © 2026 शुभम ट्रैवल्स। सर्वाधिकार सुरक्षित।',
+      cities: {
+        'Nashik, Maharashtra': 'नाशिक, महाराष्ट्र',
+        'Mumbai, Maharashtra': 'मुंबई, महाराष्ट्र',
+        'Pune, Maharashtra': 'पुणे, महाराष्ट्र',
+        'Shirdi, Maharashtra': 'शिर्डी, महाराष्ट्र',
+        'Aurangabad, Maharashtra': 'औरंगाबाद, महाराष्ट्र',
+        'Surat, Gujarat': 'सूरत, गुजरात',
+        'Goa, India': 'गोवा, भारत'
+      }
+    },
+    mr: {
+      logo_sub: 'कॅब आणि टॅक्सी सेवा',
+      nav_home: 'होम',
+      nav_fleet: 'वाहने',
+      nav_routes: 'मार्ग',
+      nav_services: 'सेवा',
+      nav_faq: 'FAQ',
+      nav_book: 'आता बुक करा',
+      hero_title: 'सर्वोत्तम कॅब आणि टॅक्सी सेवा<br><span>शुभम ट्रॅव्हल्स</span>',
+      hero_since: '2002 पासून',
+      hero_exp: '22+ वर्षांचा अनुभव',
+      hero_desc: 'महाराष्ट्र आणि भारतभरात किफायतशीर, सुरक्षित आणि विश्वासार्ह आउटस्टेशन कॅब बुकिंग',
+      form_title: '📍 तुमची कॅब बुक करा',
+      tab_oneway: 'वन-वे',
+      tab_round: 'राउंड ट्रिप',
+      tab_rental: 'रेंटल',
+      tab_self: 'सेल्फ ड्राईव्ह',
+      label_pickup: 'पिकअप ठिकाण',
+      label_drop: 'ड्रॉप ठिकाण',
+      label_date: 'पिकअप तारीख',
+      label_time: 'पिकअप वेळ',
+      btn_whatsapp: 'व्हॉट्सॲपवर बुकिंग पाठवा',
+      about_title: '<span>शुभम ट्रॅव्हल्स</span> बद्दल',
+      about_p1: 'आम्ही महाराष्ट्र, गोवा आणि त्याहून पलीकडे कार्यरत असलेली एक विश्वासार्ह कॅब आणि टॅक्सी बुकिंग सेवा आहोत. शुभम ट्रॅव्हल्ससह, तुम्हाला सुरक्षित, आरामदायी आणि किफायतशीर प्रवास मिळतो — मग तो स्थानिक प्रवास असो, विमानतळ बदली असो किंवा वळणावरचा प्रवास असो।',
+      about_p2: 'आमच्या वाहनांच्या ताफ्यात सर्व प्रकारच्या ग्रुपसाठी वाहनांची विस्तृत श्रेणी समाविष्ट आहे. प्रत्येक ड्रायव्हर नोंदणीकृत, सत्यापित आणि तुम्हाला सर्वोत्तम प्रवासाचा अनुभव देण्यासाठी प्रशिक्षित आहे।',
+      badge_exp: '🏆 2002 पासून | 22+ वर्षांचा अनुभव',
+      badge_cars: '<span>✔</span> सर्व कार श्रेणी',
+      badge_drivers: '<span>✔</span> नोंदणीकृत ड्रायव्हर्स',
+      badge_rentals: '<span>✔</span> राउंड ट्रिप रेंटल्स',
+      badge_support: '<span>✔</span> 24/7 ग्राहक समर्थन',
+      feat_drivers: 'सत्यापित ड्रायव्हर्स',
+      feat_support: '24/7 समर्थन',
+      feat_trips: 'राउंड ट्रिप्स',
+      fleet_title: 'आमची वाहने (फ्लीट)',
+      fleet_desc: 'सुस्थितीत असलेल्या वाहनांच्या विस्तृत श्रेणीमधून निवडा',
+      stat_exp: 'अनुभवाची वर्षे (2002 पासून)',
+      stat_states: 'राज्यांमध्ये सेवा',
+      stat_rides: 'पूर्ण केलेल्या प्रवासांची संख्या',
+      stat_support: 'ग्राहक समर्थन',
+      svc_title: 'आमच्या सेवा',
+      svc_desc: 'प्रत्येक गरजेसाठी संपूर्ण प्रवास उपाय',
+      svc_ap_t: 'विमानतळ ट्रान्सफर',
+      svc_ap_d: 'भारतातील कोणत्याही विमानतळासाठी विश्वसनीय पिक-अप आणि ड्रॉप सेवा. कधीही बुक करा — पहाटे किंवा उशिरा रात्री.',
+      svc_os_t: 'आउटस्टेशन ट्रिप्स',
+      svc_os_d: 'महाराष्ट्र, गोवा, गुजरात आणि त्यापलीकडे सर्वोत्तम दरात वन-वे आणि राउंड ट्रिप कॅब सेवा.',
+      svc_lc_t: 'लोकल सिटी कॅब',
+      svc_lc_d: 'शहरात स्थानिक प्रवासासाठी प्रति तास रेंटल कॅब सेवा. अर्धा दिवस आणि पूर्ण दिवसाच्या पॅकेजसाठी उपलब्ध.',
+      svc_cp_t: 'कॉर्पोरेट आणि इव्हेंट्स',
+      svc_cp_d: 'कॉर्पोरेट बैठका, परिषदा, विवाह आणि विशेष कार्यक्रमांसाठी आरामदायी कॅब सेवा.',
+      how_title: 'बुकिंग कशी कार्य करते',
+      how_desc: 'तुमची कॅब मिळवण्यासाठी तीन सोप्या पायऱ्या',
+      step1_t: 'आमच्याशी संपर्क साधा',
+      step1_d: 'तुमचे पिकअप ठिकाण, ड्रॉप ठिकाण आणि प्रवासाच्या तारखेसह आम्हाला कॉल किंवा व्हॉट्सॲप करा.',
+      step2_t: 'निश्चिती मिळवा',
+      step2_d: 'पिकअपच्या १ तास आधी ड्रायव्हरचे नाव आणि वाहन तपशीलांसह त्वरित बुकिंग निश्चिती मिळवा.',
+      step3_t: 'प्रवासाचा आनंद घ्या',
+      step3_d: 'ड्रायव्हर वेळेवर पोहोचतो. आरामशीर बसा आणि सुरक्षित, आरामदायी प्रवासाचा आनंद घ्या.',
+      routes_title: 'आम्ही सेवा देत असलेले लोकप्रिय मार्ग',
+      routes_desc: 'महाराष्ट्रभर वन-वे आणि राउंड ट्रिप कॅब सेवा',
+      why_title: 'शुभम ट्रॅव्हल्स का निवडावे?',
+      why_desc: 'आम्ही वक्तशीरपणा, सुरक्षितता आणि ग्राहक समाधानावर लक्ष केंद्रित करतो',
+      why_1_t: '24/7 टॅक्सी सेवा',
+      why_1_d: 'आम्ही स्थानिक, विमानतळ आणि आउटस्टेशन प्रवासासाठी २४ तास उपलब्ध आहोत — जेव्हा तुम्हाला आमची गरज असेल.',
+      why_2_t: 'सत्यापित आणि अनुभवी ड्रायव्हर्स',
+      why_2_d: 'आमचे सर्व ड्रायव्हर्स पार्श्वभूमी-तपासलेले, परवानाधारक आणि लांब पल्ल्याच्या महामार्गावरील प्रवासासाठी प्रशिक्षित आहेत.',
+      why_3_t: 'पारदर्शक किंमती',
+      why_3_d: 'कोणतेही छुपे शुल्क नाही. आम्ही जे सांगतो तेच तुम्ही पैसे देता — एकाधिक पेमेंट पर्याय उपलब्ध आहेत.',
+      why_4_t: 'स्वच्छ आणि आरामदायी वाहने',
+      why_4_d: 'आमच्या सर्व कॅब सुस्थितीत आहेत, एसी-सज्ज आहेत आणि प्रत्येक प्रवासापूर्वी स्वच्छ केल्या जातात.',
+      cta_title: '<span>कॉल आणि व्हॉट्सॲपवर</span> सुलभ आणि जलद कॅब बुकिंग',
+      cta_desc: 'तुमची कॅब झटपट बुक करा — कोणत्याही ॲपची गरज नाही. फक्त कॉल करा किंवा व्हॉट्सॲप संदेश पाठवा आणि आम्ही काही मिनिटांत पुष्टी करू.',
+      btn_call: 'आता कॉल करा',
+      btn_wa: 'आता व्हॉट्सॲप करा',
+      rev_title: 'आमचे ग्राहक काय म्हणतात',
+      rev_desc: 'महाराष्ट्रभरातील आनंदी प्रवाशांचे खरे अनुभव',
+      rev_1: 'उत्कृष्ट कॅब सेवा! ड्रायव्हर विनम्र आणि वेळेवर होता. आउटस्टेशन ट्रिप्ससाठी अत्यंत शिफारसीय.',
+      rev_2: 'सुलभ बुकिंग आणि स्वच्छ कार. सेवा प्रत्येक रुपयासाठी पात्र होती. पुन्हा बुक करेल.',
+      rev_3: 'विश्वासार्ह आणि परवडणारी टॅक्सी सेवा. संपूर्ण प्रवासात ड्रायव्हर विनम्र होता.',
+      rev_4: 'विलक्षण अनुभव! कार नीटनेटकी होती आणि ड्रायव्हर संपूर्ण प्रवासात खूप मदत करत होता.',
+      rev_5: 'बुक करणे सोपे आणि आरामदायी प्रवास. शुभम ट्रॅव्हल्ससोबत पुन्हा प्रवास करायला आवडेल.',
+      rev_6: 'कॅब वेळेवर आली. उत्तम सेवा, सुरक्षित ड्रायव्हिंग आणि अतिशय वाजवी दर.',
+      faq_title: 'नेहमी विचारले जाणारे प्रश्न',
+      faq_desc: 'आमच्यासोबत बुकिंग करण्याबद्दल तुम्हाला माहित असणे आवश्यक असलेले सर्वकाही',
+      faq_q1: 'मी माझी पहिली कॅब कशी बुक करू?',
+      faq_a1: 'तुम्ही वरील फॉर्म भरून, व्हॉट्सॲप बटणावर क्लिक करून किंवा आम्हाला थेट कॉल करून बुक करू शकता: ',
+      faq_a1_suffix: '। आम्ही तुमची बुकिंग त्वरित निश्चित करू.',
+      faq_q2: 'कोणत्या पेमेंट पद्धती स्वीकारल्या जातात?',
+      faq_a2: 'आम्ही रोख, UPI (GPay, PhonePe, Paytm), थेट बँक हस्तांतरण आणि डेबिट/क्रेडिट कार्ड स्वीकारतो — जे तुम्हाला सोयीचे असेल.',
+      faq_q3: 'कॅब निश्चित होण्यासाठी किती वेळ लागतो?',
+      faq_a3: 'बुकिंग झटपट निश्चित होते. तुमच्या पिकअप वेळेच्या १ तास आधी ड्रायव्हरचे नाव, संपर्क आणि वाहनाचा तपशील व्हॉट्सॲप आणि एसएमएसद्वारे पाठवला जातो.',
+      faq_q4: 'मी माझी बुकिंग रद्द करू शकतो का?',
+      faq_a4: 'होय, बुकिंग रद्द करणे स्वीकारले जाते. कृपया पिकअप वेळेच्या किमान २ तास आधी आमच्याशी संपर्क साधा. आमचे प्रतिनिधी तुम्हाला प्रक्रिया पूर्ण करण्यात मदत करतील.',
+      faq_q5: 'तुमचे ड्रायव्हर्स सत्यापित आणि सुरक्षित आहेत का?',
+      faq_a5: 'होय. आमचे सर्व ड्रायव्हर्स नोंदणीकृत, पार्श्वभूमी-तपासलेले आहेत आणि त्यांच्याकडे वैध व्यावसायिक ड्रायव्हिंग परवाने आहेत. तुमची सुरक्षा ही आमची सर्वोच्च प्राथमिकता आहे.',
+      faq_q6: 'तुम्ही अनेक दिवसांसाठी आउटस्टेशन कॅब प्रदान करता का?',
+      faq_a6: 'नक्कीच! आम्ही महाराष्ट्र, गोवा, गुजरात आणि इतर राज्यांमध्ये बहु-दिवसीय आउटस्टेशन कॅब रेंटल्स ऑफर करतो. जस आम्हाला तुमचा प्रवास प्लॅन कळवा.',
+      quick_links: 'महत्त्वाचे दुवे',
+      copyright: 'कॉपीराइट © 2026 शुभम ट्रॅव्हल्स. सर्व हक्क राखीव.',
+      cities: {
+        'Nashik, Maharashtra': 'नाशिक, महाराष्ट्र',
+        'Mumbai, Maharashtra': 'मुंबई, महाराष्ट्र',
+        'Pune, Maharashtra': 'पुणे, महाराष्ट्र',
+        'Shirdi, Maharashtra': 'शिर्डी, महाराष्ट्र',
+        'Aurangabad, Maharashtra': 'औरंगाबाद, महाराष्ट्र',
+        'Surat, Gujarat': 'सूरत, गुजरात',
+        'Goa, India': 'गोवा, भारत'
+      }
+    }
+  };
+
+  // Main Language Switcher Function
+  function changeLanguage(lang) {
+    localStorage.setItem('shubham_lang', lang);
+    const db = translations[lang];
+    if (!db) return;
+
+    // Helper text updater
+    function txt(selector, key, icon = null) {
+      const el = document.querySelector(selector);
+      if (!el) return;
+      if (icon) {
+        el.innerHTML = `<i class="${icon}"></i> ${db[key]}`;
+      } else {
+        el.innerHTML = db[key];
+      }
+    }
+
+    // Helper text updater for array elements
+    function txtAll(selector, keyList) {
+      const els = document.querySelectorAll(selector);
+      els.forEach((el, idx) => {
+        if (keyList[idx]) el.innerHTML = db[keyList[idx]];
+      });
+    }
+
+    // 1. Logo and Header
+    txt('.logo-sub', 'logo_sub');
+    txt('nav a[href="#"]', 'nav_home');
+    txt('nav a[href="#fleet"]', 'nav_fleet');
+    txt('nav a[href="#routes"]', 'nav_routes');
+    txt('nav a[href="#services"]', 'nav_services');
+    txt('nav a[href="#faq"]', 'nav_faq');
+    txt('.nav-cta', 'nav_book', 'fab fa-whatsapp');
+
+    // 2. Hero Section
+    txt('.hero-content h1', 'hero_title');
+    txt('.hero-content span[style*="background"]', 'hero_since');
+    txt('.hero-content strong', 'hero_exp');
+    txt('.hero-content p:nth-of-type(2)', 'hero_desc');
+
+    // 3. Booking Form
+    txt('.book-form h3', 'form_title');
+    txt('.trip-tabs .trip-tab:nth-child(1)', 'tab_oneway');
+    txt('.trip-tabs .trip-tab:nth-child(2)', 'tab_round');
+    txt('.trip-tabs .trip-tab:nth-child(3)', 'tab_rental');
+    txt('.trip-tabs .trip-tab:nth-child(4)', 'tab_self');
+    
+    // Labels
+    const labels = document.querySelectorAll('.form-group label');
+    if (labels[0]) labels[0].innerText = db.label_pickup;
+    if (labels[1]) labels[1].innerText = db.label_drop;
+    if (labels[2]) labels[2].innerText = db.label_date;
+    if (labels[3]) labels[3].innerText = db.label_time;
+    
+    txt('.btn-book', 'btn_whatsapp', 'fab fa-whatsapp');
+
+    // Translate Dropdown Cities dynamically
+    document.querySelectorAll('#pickupLoc option, #dropLoc option').forEach(opt => {
+      const key = opt.value;
+      const originalText = opt.innerText;
+      // Search matching translation
+      for (let enKey in translations.en.cities) {
+        if (opt.value.includes(enKey) || opt.innerText.includes(translations.en.cities[enKey]) || opt.innerText.includes(translations.hi.cities[enKey]) || opt.innerText.includes(translations.mr.cities[enKey])) {
+          opt.innerText = db.cities[enKey];
+          break;
+        }
+      }
+    });
+
+    // 4. About Section
+    txt('.about-text h2', 'about_title');
+    txt('.about-text p:nth-of-type(1)', 'about_p1');
+    txt('.about-text p:nth-of-type(2)', 'about_p2');
+    txt('.about-badges .badge:nth-child(1)', 'badge_exp');
+    txt('.about-badges .badge:nth-child(2)', 'badge_cars');
+    txt('.about-badges .badge:nth-child(3)', 'badge_drivers');
+    txt('.about-badges .badge:nth-child(4)', 'badge_rentals');
+    txt('.about-badges .badge:nth-child(5)', 'badge_support');
+    
+    const featItems = document.querySelectorAll('.features-row .feat-item');
+    if (featItems[0]) featItems[0].innerHTML = `<div class="feat-icon"><i class="fas fa-user-check"></i></div> ${db.feat_drivers}`;
+    if (featItems[1]) featItems[1].innerHTML = `<div class="feat-icon"><i class="fas fa-headset"></i></div> ${db.feat_support}`;
+    if (featItems[2]) featItems[2].innerHTML = `<div class="feat-icon"><i class="fas fa-sync-alt"></i></div> ${db.feat_trips}`;
+
+    // 5. Fleet Section
+    txt('.fleet .section-title h2', 'fleet_title');
+    txt('.fleet .section-title p', 'fleet_desc');
+    document.querySelectorAll('.car-card .btn-whatsapp').forEach(btn => {
+      btn.innerHTML = `<i class="fab fa-whatsapp"></i> ${db.nav_book.toUpperCase()}`;
+    });
+
+    // 6. Stats Section
+    const statLabels = document.querySelectorAll('.stats-grid .stat-label');
+    if (statLabels[0]) statLabels[0].innerText = db.stat_exp;
+    if (statLabels[1]) statLabels[1].innerText = db.stat_states;
+    if (statLabels[2]) statLabels[2].innerText = db.stat_rides;
+    if (statLabels[3]) statLabels[3].innerText = db.stat_support;
+
+    // 7. Services Section
+    txt('#services .section-title h2', 'svc_title');
+    txt('#services .section-title p', 'svc_desc');
+    const svcH4s = document.querySelectorAll('.services-grid .svc-card h4');
+    const svcPs = document.querySelectorAll('.services-grid .svc-card p');
+    if (svcH4s[0]) svcH4s[0].innerText = db.svc_ap_t;
+    if (svcPs[0]) svcPs[0].innerText = db.svc_ap_d;
+    if (svcH4s[1]) svcH4s[1].innerText = db.svc_os_t;
+    if (svcPs[1]) svcPs[1].innerText = db.svc_os_d;
+    if (svcH4s[2]) svcH4s[2].innerText = db.svc_lc_t;
+    if (svcPs[2]) svcPs[2].innerText = db.svc_lc_d;
+    if (svcH4s[3]) svcH4s[3].innerText = db.svc_cp_t;
+    if (svcPs[3]) svcPs[3].innerText = db.svc_cp_d;
+
+    // 8. How it works Section
+    txt('.how .section-title h2', 'how_title');
+    txt('.how .section-title p', 'how_desc');
+    const stepH4s = document.querySelectorAll('.steps .step h4');
+    const stepPs = document.querySelectorAll('.steps .step p');
+    if (stepH4s[0]) stepH4s[0].innerText = db.step1_t;
+    if (stepPs[0]) stepPs[0].innerText = db.step1_d;
+    if (stepH4s[1]) stepH4s[1].innerText = db.step2_t;
+    if (stepPs[1]) stepPs[1].innerText = db.step2_d;
+    if (stepH4s[2]) stepH4s[2].innerText = db.step3_t;
+    if (stepPs[2]) stepPs[2].innerText = db.step3_d;
+
+    // 9. Routes Section
+    txt('.routes .section-title h2', 'routes_title');
+    txt('.routes .section-title p', 'routes_desc');
+
+    // 10. Why Choose Us Section
+    const whyGrid = document.querySelector('.why-grid');
+    if (whyGrid) {
+      const whyTitle = whyGrid.parentElement.querySelector('.section-title h2');
+      const whyDesc = whyGrid.parentElement.querySelector('.section-title p');
+      if (whyTitle) whyTitle.innerText = db.why_title;
+      if (whyDesc) whyDesc.innerText = db.why_desc;
+    }
+    const whyH5s = document.querySelectorAll('.why-list .why-item h5');
+    const whyPs = document.querySelectorAll('.why-list .why-item p');
+    if (whyH5s[0]) whyH5s[0].innerText = db.why_1_t;
+    if (whyPs[0]) whyPs[0].innerText = db.why_1_d;
+    if (whyH5s[1]) whyH5s[1].innerText = db.why_2_t;
+    if (whyPs[1]) whyPs[1].innerText = db.why_2_d;
+    if (whyH5s[2]) whyH5s[2].innerText = db.why_3_t;
+    if (whyPs[2]) whyPs[2].innerText = db.why_3_d;
+    if (whyH5s[3]) whyH5s[3].innerText = db.why_4_t;
+    if (whyPs[3]) whyPs[3].innerText = db.why_4_d;
+
+    // 11. Booking CTA
+    txt('.book-cta h2', 'cta_title');
+    txt('.book-cta p', 'cta_desc');
+    txt('.btn-call', 'btn_call', 'fas fa-phone');
+    txt('.btn-wa', 'btn_wa', 'fab fa-whatsapp');
+
+    // 12. Reviews
+    txt('.reviews .section-title h2', 'rev_title');
+    txt('.reviews .section-title p', 'rev_desc');
+    const revCards = document.querySelectorAll('.reviews-grid .review-card p');
+    if (revCards[0]) revCards[0].innerText = db.rev_1;
+    if (revCards[1]) revCards[1].innerText = db.rev_2;
+    if (revCards[2]) revCards[2].innerText = db.rev_3;
+    if (revCards[3]) revCards[3].innerText = db.rev_4;
+    if (revCards[4]) revCards[4].innerText = db.rev_5;
+    if (revCards[5]) revCards[5].innerText = db.rev_6;
+
+    // 13. FAQ
+    txt('.faq .section-title h2', 'faq_title');
+    txt('.faq .section-title p', 'faq_desc');
+    const faqQs = document.querySelectorAll('.faq-item .faq-q');
+    const faqAs = document.querySelectorAll('.faq-item .faq-a');
+    
+    if (faqQs[0]) faqQs[0].innerHTML = `${db.faq_q1} <i class="fas fa-chevron-down"></i>`;
+    if (faqAs[0]) {
+      // Find numbers dynamic values
+      const currentHrefs = Array.from(faqAs[0].querySelectorAll('a')).map(a => a.href);
+      const tel1 = currentHrefs[0] ? currentHrefs[0].replace('tel:', '') : '+919822119033';
+      faqAs[0].innerHTML = `${db.faq_a1}<a href="tel:${tel1}">${tel1.replace('+91', '+91 ')}</a>${db.faq_a1_suffix}`;
+    }
+    
+    if (faqQs[1]) faqQs[1].innerHTML = `${db.faq_q2} <i class="fas fa-chevron-down"></i>`;
+    if (faqAs[1]) faqAs[1].innerText = db.faq_a2;
+    
+    if (faqQs[2]) faqQs[2].innerHTML = `${db.faq_q3} <i class="fas fa-chevron-down"></i>`;
+    if (faqAs[2]) faqAs[2].innerText = db.faq_a3;
+    
+    if (faqQs[3]) faqQs[3].innerHTML = `${db.faq_q4} <i class="fas fa-chevron-down"></i>`;
+    if (faqAs[3]) faqAs[3].innerText = db.faq_a4;
+    
+    if (faqQs[4]) faqQs[4].innerHTML = `${db.faq_q5} <i class="fas fa-chevron-down"></i>`;
+    if (faqAs[4]) faqAs[4].innerText = db.faq_a5;
+    
+    if (faqQs[5]) faqQs[5].innerHTML = `${db.faq_q6} <i class="fas fa-chevron-down"></i>`;
+    if (faqAs[5]) faqAs[5].innerText = db.faq_a6;
+
+    // 14. Footer
+    const footerBrandP = document.querySelector('.footer-brand p');
+    if (footerBrandP) footerBrandP.innerText = db.about_p2;
+    const footerCallUs = document.querySelector('.footer-brand p[style*="margin-top"]');
+    if (footerCallUs) {
+      const textNode = Array.from(footerCallUs.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.includes('Call'));
+      if (textNode) textNode.textContent = (lang === 'hi' ? '📞 हमें कॉल करें:' : lang === 'mr' ? '📞 आम्हाला कॉल करा:' : '📞 Call Us:') + '\n';
+    }
+    txt('.footer-col:nth-of-type(5) h4', 'quick_links');
+    txt('.footer-bottom p', 'copyright');
+  }
 </script>
 </body>
 </html>

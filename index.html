@@ -205,13 +205,32 @@
     .route-pill:hover i { color: #000; }
 
     /* ── WHY CHOOSE ── */
-    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+    .why-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; }
     .why-list { display: flex; flex-direction: column; gap: 18px; }
     .why-item { display: flex; align-items: flex-start; gap: 16px; }
     .why-icon { width: 48px; height: 48px; background: var(--yellow); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
     .why-item h5 { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
     .why-item p { color: #777; font-size: 13px; line-height: 1.6; }
-    .why-img img { width: 100%; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,.12); }
+    .why-video {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,.12);
+      background: #000;
+      max-width: 460px;
+      margin: 0 auto;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .why-video:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 45px rgba(0,0,0,.18);
+    }
+    .why-video video {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      display: block;
+      border-radius: 16px;
+    }
 
     /* ── BOOKING CTA ── */
     .book-cta { background: linear-gradient(135deg, var(--dark), #0f3460); color: #fff; text-align: center; padding: 80px 20px; }
@@ -225,15 +244,108 @@
     .btn-wa:hover { background: #1fad55; }
 
     /* ── REVIEWS ── */
-    .reviews { background: var(--gray); }
-    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-    .review-card { background: #fff; border-radius: 14px; padding: 22px; box-shadow: 0 4px 16px rgba(0,0,0,.07); }
+    .reviews { background: var(--gray); position: relative; overflow: hidden; }
+    .reviews-slider-container {
+      position: relative;
+      width: 100%;
+      padding: 10px 0;
+    }
+    .reviews-slider-track-wrapper {
+      overflow: hidden;
+      width: 100%;
+    }
+    .reviews-slider-track {
+      display: flex;
+      gap: 20px;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      will-change: transform;
+    }
+    .review-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.07);
+      flex: 0 0 calc(33.333% - 14px);
+      box-sizing: border-box;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .review-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
     .reviewer { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
     .reviewer img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; }
     .reviewer-info h5 { font-size: 14px; font-weight: 700; color: var(--dark); }
     .reviewer-info span { font-size: 12px; color: #999; }
     .stars { color: #f5c518; font-size: 13px; margin-bottom: 8px; }
     .review-card p { font-size: 13px; color: #666; line-height: 1.6; }
+
+    /* Slider Navigation */
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      background: #fff;
+      border: 1.5px solid #eee;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--dark);
+      font-size: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      z-index: 10;
+      transition: all 0.2s ease;
+    }
+    .slider-arrow:hover {
+      background: var(--yellow);
+      border-color: var(--yellow);
+      color: #000;
+      box-shadow: 0 6px 16px rgba(245,197,24,0.3);
+    }
+    .slider-arrow.prev-arr {
+      left: -22px;
+    }
+    .slider-arrow.next-arr {
+      right: -22px;
+    }
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 25px;
+    }
+    .slider-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ccc;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .slider-dot.active {
+      background: var(--yellow);
+      width: 24px;
+      border-radius: 5px;
+    }
+
+    @media(max-width: 1140px) {
+      .slider-arrow.prev-arr { left: 10px; }
+      .slider-arrow.next-arr { right: 10px; }
+    }
+    @media(max-width: 992px) {
+      .review-card {
+        flex: 0 0 calc(50% - 10px);
+      }
+    }
+    @media(max-width: 600px) {
+      .review-card {
+        flex: 0 0 100%;
+      }
+    }
 
     /* ── FAQ ── */
     .faq { background: #fff; }
@@ -320,7 +432,7 @@
     /* ── MOBILE ── */
     @media(max-width:900px) {
       .about-grid, .why-grid { grid-template-columns: 1fr; }
-      .why-img { order: -1; }
+      .why-video { order: -1; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
     @media(max-width:700px) {
@@ -340,10 +452,9 @@
 <div class="topbar">
   <a href="tel:+918080501197"><i class="fas fa-phone"></i> +91 80805 01197</a>
   <div class="social-icons">
-    <a href="#"><i class="fab fa-facebook-f"></i></a>
-    <a href="#"><i class="fab fa-instagram"></i></a>
-    <a href="#"><i class="fab fa-youtube"></i></a>
-    <a href="https://wa.me/918080501197"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://www.facebook.com/share/1DXsrMcHa7/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.instagram.com/_shubham.travels_?igsh=Mmhvc2liMnk3aHY3" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://wa.me/918080501197" target="_blank"><i class="fab fa-whatsapp"></i></a>
   </div>
 </div>
 
@@ -395,13 +506,13 @@
       <div class="trip-tabs">
         <div class="trip-tab active" onclick="setTab(this)">Oneway</div>
         <div class="trip-tab" onclick="setTab(this)">Round Trip</div>
-        <div class="trip-tab" onclick="setTab(this)">Rental</div>
-        <div class="trip-tab" onclick="setTab(this)">Self Drive</div>
+        <div class="trip-tab" onclick="setTab(this)">Outstation Packages</div>
+        <div class="trip-tab" onclick="setTab(this)">Nashik Local Service</div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label>Pickup Location</label>
-          <select id="pickupLoc">
+          <select id="pickupLoc" onchange="toggleOther(this, 'pickupLocOther')">
             <option>Nashik, Maharashtra</option>
             <option>Mumbai, Maharashtra</option>
             <option>Pune, Maharashtra</option>
@@ -409,11 +520,13 @@
             <option>Aurangabad, Maharashtra</option>
             <option>Surat, Gujarat</option>
             <option>Goa, India</option>
+            <option value="Others">Others</option>
           </select>
+          <input type="text" id="pickupLocOther" placeholder="Enter Pickup Location" style="display:none; margin-top: 8px;" />
         </div>
         <div class="form-group">
           <label>Drop Location</label>
-          <select id="dropLoc">
+          <select id="dropLoc" onchange="toggleOther(this, 'dropLocOther')">
             <option>Mumbai, Maharashtra</option>
             <option>Nashik, Maharashtra</option>
             <option>Pune, Maharashtra</option>
@@ -421,7 +534,28 @@
             <option>Aurangabad, Maharashtra</option>
             <option>Surat, Gujarat</option>
             <option>Goa, India</option>
+            <option value="Others">Others</option>
           </select>
+          <input type="text" id="dropLocOther" placeholder="Enter Drop Location" style="display:none; margin-top: 8px;" />
+        </div>
+      </div>
+      <div class="form-row" style="grid-template-columns: 1fr;">
+        <div class="form-group">
+          <label>Select vehicle</label>
+          <select id="selectVehicle" onchange= "toggleOther(this, 'selectVehicleOther')">
+            <option>Dzire - 12/km</option>
+            <option>Aura - 12/km</option>
+            <option>Etios - 12/km</option>
+            <option>Ertiga - 15/km</option>
+            <option>Rumion - 15/km</option>
+            <option>Kia Carens - 16/km</option>
+            <option>Innova - 16/km</option>
+            <option>Innova Crysta - 20/km</option>
+            <option>Tempo Traveler</option>
+            <option>Mini Bus</option>
+            <option value="Others">Others</option>
+          </select>
+          <input type="text" id="selectVehicleOther" placeholder="Enter Vehicle Details" style="display:none; margin-top: 8px;" />
         </div>
       </div>
       <div class="form-row">
@@ -477,28 +611,16 @@
     </div>
     <div class="fleet-grid">
       <div class="car-card">
-        <img src="https://www.sairamcabservice.com/images/swift1-new.png" alt="Swift Dzire" />
+        <img src="https://stimg.cardekho.com/images/carexteriorimages/630x420/Maruti/Dzire-Tour-S/12461/1762857975456/front-left-side-47.jpg" alt="Swift Dzire" />
         <div class="guests">5 Guests</div>
         <h4>Swift Dzire</h4>
         <a href="https://wa.me/918080501197?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Swift%20Dzire." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
       </div>
       <div class="car-card">
-        <img src="https://www.sairamcabservice.com/images/ertiga-new1.png" alt="Ertiga" />
-        <div class="guests">7 Guests</div>
-        <h4>Maruti Suzuki Ertiga</h4>
-        <a href="https://wa.me/918080501197?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Ertiga." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
-      </div>
-      <div class="car-card">
-        <img src="https://www.sairamcabservice.com/images/kia_carne%20new.png" alt="Kia Carens" />
-        <div class="guests">7 Guests</div>
-        <h4>Kia Carens</h4>
-        <a href="https://wa.me/918080501197?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Kia%20Carens." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
-      </div>
-      <div class="car-card">
-        <img src="https://www.sairamcabservice.com/images/innova_crysta-new.png" alt="Innova Crysta" />
-        <div class="guests">8 Guests</div>
-        <h4>Innova Crysta</h4>
-        <a href="https://wa.me/918080501197?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Innova%20Crysta." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
+        <img src="hyundai-aura.png" alt="Hyundai Aura" />
+        <div class="guests">5 Guests</div>
+        <h4>Hyundai Aura</h4>
+        <a href="https://wa.me/918080501197?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Hyundai%20Aura." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
       </div>
       <div class="car-card">
         <img src="https://www.sairamcabservice.com/images/TEtios.png" alt="Etios" />
@@ -507,10 +629,46 @@
         <a href="https://wa.me/918080501197?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Etios." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
       </div>
       <div class="car-card">
+        <img src="https://www.sairamcabservice.com/images/ertiga-new1.png" alt="Ertiga" />
+        <div class="guests">7 Guests</div>
+        <h4>Maruti Suzuki Ertiga</h4>
+        <a href="https://wa.me/918080501197?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Ertiga." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
+      </div>
+      <div class="car-card">
+        <img src="toyota-rumion.png" alt="Toyota Rumion" />
+        <div class="guests">7 Guests</div>
+        <h4>Toyota Rumion</h4>
+        <a href="https://wa.me/918080501197?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Toyota%20Rumion." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
+      </div>
+      <div class="car-card">
+        <img src="https://www.sairamcabservice.com/images/kia_carne%20new.png" alt="Kia Carens" />
+        <div class="guests">7 Guests</div>
+        <h4>Kia Carens</h4>
+        <a href="https://wa.me/918080501197?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Kia%20Carens." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
+      </div>
+      <div class="car-card">
         <img src="https://www.sairamcabservice.com/images/innova-new.png" alt="Innova" />
         <div class="guests">8 Guests</div>
         <h4>Innova</h4>
         <a href="https://wa.me/918080501197?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Innova." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
+      </div>
+      <div class="car-card">
+        <img src="https://www.sairamcabservice.com/images/innova_crysta-new.png" alt="Innova Crysta" />
+        <div class="guests">8 Guests</div>
+        <h4>Innova Crysta</h4>
+        <a href="https://wa.me/918080501197?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Innova%20Crysta." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
+      </div>
+      <div class="car-card">
+        <img src="tempo-traveller.png" alt="Tempo Traveller" />
+        <div class="guests">17 Guests</div>
+        <h4>Tempo Traveller</h4>
+        <a href="https://wa.me/918080501197?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Tempo%20Traveller." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
+      </div>
+      <div class="car-card">
+        <img src="mini-bus.png" alt="Mini Bus" />
+        <div class="guests">26 Guests</div>
+        <h4>Mini Bus</h4>
+        <a href="https://wa.me/918080501197?text=Hello%20Shubham%20Travels%2C%20I%20want%20to%20book%20Mini%20Bus." class="btn-whatsapp"><i class="fab fa-whatsapp"></i> BOOK</a>
       </div>
     </div>
   </div>
@@ -669,8 +827,11 @@
           </div>
         </div>
       </div>
-      <div class="why-img">
-        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=700&q=80" alt="Comfortable Cab" />
+      <div class="why-video">
+        <video autoplay loop muted playsinline controls poster="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=700&q=80">
+          <source src="actor-video.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
       </div>
     </div>
   </div>
@@ -696,56 +857,71 @@
       <p>Real experiences from happy travellers across Maharashtra</p>
       <div class="line"></div>
     </div>
-    <div class="reviews-grid">
-      <div class="review-card">
-        <div class="reviewer">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0qUQXfqIw33zx1LP4qjew5dJriPLiDQ0cRQ&s" alt="Amit" />
-          <div class="reviewer-info"><h5>Vidisha Mhaskar - Actress</h5><span>Pune</span></div>
+    <div class="reviews-slider-container">
+      <button class="slider-arrow prev-arr" aria-label="Previous Review"><i class="fas fa-chevron-left"></i></button>
+      <div class="reviews-slider-track-wrapper">
+        <div class="reviews-slider-track" id="reviewsTrack">
+          <div class="review-card">
+            <div class="reviewer">
+              <!-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0qUQXfqIw33zx1LP4qjew5dJriPLiDQ0cRQ&s" alt="Amit" /> -->
+              <div class="reviewer-info"><h5>Vidisha Mhaskar - Actress</h5><span>Mumbai</span></div>
+            </div>
+            <div class="stars">★★★★★</div>
+            <p>Excellent cab service! Driver was polite and on time. Highly recommended for outstation trips.</p>
+          </div>
+          <div class="review-card">
+            <div class="reviewer">
+              <!-- <img src="#" alt="Sneha" /> -->
+              <div class="reviewer-info"><h5>Pramod Patil</h5><span>Nashik</span></div>
+            </div>
+            <div class="stars">★★★★☆</div>
+            <p>Smooth booking and clean car. The service was worth every rupee. Will book again.</p>
+          </div>
+          <div class="review-card">
+            <div class="reviewer">
+              <!-- <img src="#" alt="Rohan" /> -->
+              <div class="reviewer-info"><h5>Kshitija patel</h5><span>Nashik</span></div>
+            </div>
+            <div class="stars">★★★★★</div>
+            <p>Reliable and affordable taxi service. The driver was courteous throughout the journey.</p>
+          </div>
+          <div class="review-card">
+            <div class="reviewer">
+              <!-- <img src="#" alt="Priya" /> -->
+              <div class="reviewer-info"><h5>Priya Nair</h5><span>Thane</span></div>
+            </div>
+            <div class="stars">★★★★★</div>
+            <p>Fantastic experience! The car was neat and the driver was very helpful throughout.</p>
+          </div>
+          <div class="review-card">
+            <div class="reviewer">
+              <!-- <img src="#" alt="Karan" /> -->
+              <div class="reviewer-info"><h5>Tarannum Shaikh</h5><span>Nashik</span></div>
+            </div>
+            <div class="stars">★★★★☆</div>
+            <p>Easy to book and comfortable journey. Would love to travel with Shubham Travels again.</p>
+          </div>
+          <div class="review-card">
+            <div class="reviewer">
+              <!-- <img src="#" alt="Neha" /> -->
+              <div class="reviewer-info"><h5>Sanjay Bharbat</h5><span>Mumbai</span></div>
+            </div>
+            <div class="stars">★★★★★</div>
+            <p>Cab arrived on time. Great service, safe driving and very reasonable pricing.</p>
+          </div>
+          <div class="review-card">
+            <div class="reviewer">
+              <!-- <img src="Rahul Kedar.jpeg" alt="Rahul Kedar" /> -->
+              <div class="reviewer-info"><h5>Rahul Kedar</h5><span>Nashik</span></div>
+            </div>
+            <div class="stars">★★★★★</div>
+            <p>Outstanding service by Shubham Travels! Very professional driver, clean and comfortable car. Will definitely recommend to friends and family.</p>
+          </div>
         </div>
-        <div class="stars">★★★★★</div>
-        <p>Excellent cab service! Driver was polite and on time. Highly recommended for outstation trips.</p>
       </div>
-      <div class="review-card">
-        <div class="reviewer">
-          <img src="https://i.pravatar.cc/70?img=2" alt="Sneha" />
-          <div class="reviewer-info"><h5>Sneha Patil</h5><span>Mumbai</span></div>
-        </div>
-        <div class="stars">★★★★☆</div>
-        <p>Smooth booking and clean car. The service was worth every rupee. Will book again.</p>
-      </div>
-      <div class="review-card">
-        <div class="reviewer">
-          <img src="https://i.pravatar.cc/70?img=3" alt="Rohan" />
-          <div class="reviewer-info"><h5>Rohan Deshmukh</h5><span>Nashik</span></div>
-        </div>
-        <div class="stars">★★★★★</div>
-        <p>Reliable and affordable taxi service. The driver was courteous throughout the journey.</p>
-      </div>
-      <div class="review-card">
-        <div class="reviewer">
-          <img src="https://i.pravatar.cc/70?img=4" alt="Priya" />
-          <div class="reviewer-info"><h5>Priya Nair</h5><span>Thane</span></div>
-        </div>
-        <div class="stars">★★★★★</div>
-        <p>Fantastic experience! The car was neat and the driver was very helpful throughout.</p>
-      </div>
-      <div class="review-card">
-        <div class="reviewer">
-          <img src="https://i.pravatar.cc/70?img=5" alt="Karan" />
-          <div class="reviewer-info"><h5>Karan Joshi</h5><span>Aurangabad</span></div>
-        </div>
-        <div class="stars">★★★★☆</div>
-        <p>Easy to book and comfortable journey. Would love to travel with Shubham Travels again.</p>
-      </div>
-      <div class="review-card">
-        <div class="reviewer">
-          <img src="https://i.pravatar.cc/70?img=6" alt="Neha" />
-          <div class="reviewer-info"><h5>Neha Kulkarni</h5><span>Kolhapur</span></div>
-        </div>
-        <div class="stars">★★★★★</div>
-        <p>Cab arrived on time. Great service, safe driving and very reasonable pricing.</p>
-      </div>
+      <button class="slider-arrow next-arr" aria-label="Next Review"><i class="fas fa-chevron-right"></i></button>
     </div>
+    <div class="slider-dots" id="sliderDots"></div>
   </div>
 </section>
 
@@ -797,10 +973,9 @@
         <a href="tel:+918080501197" style="color:var(--yellow)">+91 80805 01197</a>
       </p>
       <div class="soc" style="margin-top: 15px;">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-        <a href="https://wa.me/918080501197"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.facebook.com/share/1DXsrMcHa7/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/_shubham.travels_?igsh=Mmhvc2liMnk3aHY3" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/918080501197" target="_blank"><i class="fab fa-whatsapp"></i></a>
       </div>
     </div>
     <div class="footer-col">
@@ -866,16 +1041,57 @@
     document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
   }
+  function toggleOther(selectEl, otherInputId) {
+    const otherInput = document.getElementById(otherInputId);
+    if (selectEl.value === 'Others') {
+      otherInput.style.display = 'block';
+      otherInput.required = true;
+      otherInput.focus();
+    } else {
+      otherInput.style.display = 'none';
+      otherInput.required = false;
+      otherInput.value = '';
+    }
+  }
 
   // Handle Dynamic WhatsApp Booking
   function sendBooking(event) {
     if (event) event.preventDefault();
     
     const tripType = document.querySelector('.trip-tab.active') ? document.querySelector('.trip-tab.active').innerText : 'Oneway';
-    const pickup = document.getElementById('pickupLoc').value;
-    const drop = document.getElementById('dropLoc').value;
+    
+    let pickup = document.getElementById('pickupLoc').value;
+    if (pickup === 'Others') {
+      const otherVal = document.getElementById('pickupLocOther').value.trim();
+      if (!otherVal) {
+        alert("Please enter your Pickup Location.");
+        return;
+      }
+      pickup = otherVal;
+    }
+    
+    let drop = document.getElementById('dropLoc').value;
+    if (drop === 'Others') {
+      const otherVal = document.getElementById('dropLocOther').value.trim();
+      if (!otherVal) {
+        alert("Please enter your Drop Location.");
+        return;
+      }
+      drop = otherVal;
+    }
+    
     const date = document.getElementById('pickupDate').value;
     const time = document.getElementById('pickupTime').value;
+    
+    let vehicle = document.getElementById('selectVehicle') ? document.getElementById('selectVehicle').value : '';
+    if (vehicle === 'Others') {
+      const otherVal = document.getElementById('selectVehicleOther').value.trim();
+      if (!otherVal) {
+        alert("Please enter your Vehicle Details.");
+        return;
+      }
+      vehicle = otherVal;
+    }
 
     if (!date || !time) {
       alert("Please select both Pickup Date and Pickup Time before booking.");
@@ -893,11 +1109,260 @@
     const formattedTime = `${hours % 12 || 12}:${minutes} ${ampm}`;
 
     // Format the booking details message beautifully
-    const message = `Hello Shubham Travels, I would like to book a cab.\n\n📋 *Booking Details:*\n• *Trip Type:* ${tripType}\n• *Pickup Location:* ${pickup}\n• *Drop Location:* ${drop}\n• *Pickup Date:* ${formattedDate}\n• *Pickup Time:* ${formattedTime}`;
+    let message = `Hello Shubham Travels, I would like to book a cab.\n\n📋 *Booking Details:*\n• *Trip Type:* ${tripType}\n• *Pickup Location:* ${pickup}\n• *Drop Location:* ${drop}\n• *Pickup Date:* ${formattedDate}\n• *Pickup Time:* ${formattedTime}`;
+    if (vehicle) {
+      message += `\n• *Vehicle:* ${vehicle}`;
+    }
 
     // Open WhatsApp in a new tab
     const waUrl = `https://wa.me/918080501197?text=${encodeURIComponent(message)}`;
     window.open(waUrl, '_blank');
+  }
+
+  // Reviews Slider Logic
+  function initReviewsSlider() {
+    const track = document.getElementById('reviewsTrack');
+    const container = document.querySelector('.reviews-slider-container');
+    const dotsContainer = document.getElementById('sliderDots');
+    const prevBtn = container.querySelector('.prev-arr');
+    const nextBtn = container.querySelector('.next-arr');
+    
+    if (!track || !container) return;
+    
+    let currentIndex = 0; // index of the active card (0 to cardCount - 1)
+    let autoPlayInterval = null;
+    let isTransitioning = false;
+    
+    // Store original cards and label them with a data-index
+    const originalCards = Array.from(track.children);
+    const cardCount = originalCards.length;
+    originalCards.forEach((card, idx) => {
+      card.setAttribute('data-index', idx);
+    });
+    
+    function getVisibleCardsCount() {
+      const width = window.innerWidth;
+      if (width > 992) return 3;
+      if (width > 600) return 2;
+      return 1;
+    }
+    
+    // Set up track with clones prepended and appended for seamless wrapping
+    function setupTrack() {
+      track.innerHTML = '';
+      const visible = getVisibleCardsCount();
+      
+      // Clone last 'visible' cards to prepend
+      for (let i = cardCount - visible; i < cardCount; i++) {
+        if (originalCards[i]) {
+          const clone = originalCards[i].cloneNode(true);
+          clone.classList.add('clone');
+          track.appendChild(clone);
+        }
+      }
+      
+      // Append original cards
+      originalCards.forEach(card => {
+        track.appendChild(card);
+      });
+      
+      // Clone first 'visible' cards to append
+      for (let i = 0; i < visible; i++) {
+        if (originalCards[i]) {
+          const clone = originalCards[i].cloneNode(true);
+          clone.classList.add('clone');
+          track.appendChild(clone);
+        }
+      }
+      
+      updateCardWidths();
+    }
+    
+    function updateCardWidths() {
+      const gap = 20;
+      const containerWidth = track.parentElement.getBoundingClientRect().width;
+      const visible = getVisibleCardsCount();
+      const cardWidth = (containerWidth - (visible - 1) * gap) / visible;
+      
+      const allCards = Array.from(track.children);
+      allCards.forEach(card => {
+        card.style.flex = `0 0 ${cardWidth}px`;
+      });
+      
+      // Position to the current active index (offset by prepended clones)
+      const prependedCount = visible;
+      const shiftAmount = (currentIndex + prependedCount) * (cardWidth + gap);
+      track.style.transition = 'none';
+      track.style.transform = `translateX(-${shiftAmount}px)`;
+      // force reflow
+      track.offsetHeight;
+    }
+    
+    function move(direction) {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      
+      const visible = getVisibleCardsCount();
+      const gap = 20;
+      const containerWidth = track.parentElement.getBoundingClientRect().width;
+      const cardWidth = (containerWidth - (visible - 1) * gap) / visible;
+      const prependedCount = visible;
+      
+      if (direction === 'next') {
+        currentIndex++;
+      } else {
+        currentIndex--;
+      }
+      
+      // Enable transition for smooth slide
+      track.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+      const shiftAmount = (currentIndex + prependedCount) * (cardWidth + gap);
+      track.style.transform = `translateX(-${shiftAmount}px)`;
+      
+      updateDots();
+    }
+    
+    // Jump silently to reset scroll offset at translation end
+    track.addEventListener('transitionend', () => {
+      isTransitioning = false;
+      const visible = getVisibleCardsCount();
+      const gap = 20;
+      const containerWidth = track.parentElement.getBoundingClientRect().width;
+      const cardWidth = (containerWidth - (visible - 1) * gap) / visible;
+      const prependedCount = visible;
+      
+      if (currentIndex >= cardCount) {
+        currentIndex = 0;
+        track.style.transition = 'none';
+        const shiftAmount = (currentIndex + prependedCount) * (cardWidth + gap);
+        track.style.transform = `translateX(-${shiftAmount}px)`;
+      } else if (currentIndex < 0) {
+        currentIndex = cardCount - 1;
+        track.style.transition = 'none';
+        const shiftAmount = (currentIndex + prependedCount) * (cardWidth + gap);
+        track.style.transform = `translateX(-${shiftAmount}px)`;
+      }
+    });
+    
+    function createDots() {
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      
+      for (let i = 0; i < cardCount; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('slider-dot');
+        if (i === currentIndex) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+          if (isTransitioning || i === currentIndex) return;
+          
+          currentIndex = i;
+          const visible = getVisibleCardsCount();
+          const gap = 20;
+          const containerWidth = track.parentElement.getBoundingClientRect().width;
+          const cardWidth = (containerWidth - (visible - 1) * gap) / visible;
+          const prependedCount = visible;
+          
+          track.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+          const shiftAmount = (currentIndex + prependedCount) * (cardWidth + gap);
+          track.style.transform = `translateX(-${shiftAmount}px)`;
+          
+          updateDots();
+          resetAutoPlay();
+        });
+        dotsContainer.appendChild(dot);
+      }
+    }
+    
+    function updateDots() {
+      if (!dotsContainer) return;
+      const dots = dotsContainer.querySelectorAll('.slider-dot');
+      let activeDotIndex = currentIndex;
+      if (activeDotIndex >= cardCount) activeDotIndex = 0;
+      if (activeDotIndex < 0) activeDotIndex = cardCount - 1;
+      
+      dots.forEach((dot, idx) => {
+        if (idx === activeDotIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+    
+    function startAutoPlay() {
+      stopAutoPlay();
+      autoPlayInterval = setInterval(() => {
+        move('next');
+      }, 3500);
+    }
+    
+    function stopAutoPlay() {
+      if (autoPlayInterval) {
+        clearInterval(autoPlayInterval);
+        autoPlayInterval = null;
+      }
+    }
+    
+    function resetAutoPlay() {
+      startAutoPlay();
+    }
+    
+    // Swipe gestures support
+    let startX = 0;
+    let isSwiping = false;
+    
+    track.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      isSwiping = true;
+      stopAutoPlay();
+    }, { passive: true });
+    
+    track.addEventListener('touchmove', (e) => {
+      if (!isSwiping || isTransitioning) return;
+      const currentX = e.touches[0].clientX;
+      const diffX = startX - currentX;
+      
+      if (Math.abs(diffX) > 50) {
+        if (diffX > 0) {
+          move('next');
+        } else {
+          move('prev');
+        }
+        isSwiping = false;
+      }
+    }, { passive: true });
+    
+    track.addEventListener('touchend', () => {
+      isSwiping = false;
+      startAutoPlay();
+    });
+    
+    container.addEventListener('mouseenter', stopAutoPlay);
+    container.addEventListener('mouseleave', startAutoPlay);
+    
+    prevBtn.addEventListener('click', () => {
+      move('prev');
+      resetAutoPlay();
+    });
+    
+    nextBtn.addEventListener('click', () => {
+      move('next');
+      resetAutoPlay();
+    });
+    
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        setupTrack();
+        createDots();
+      }, 100);
+    });
+    
+    // Initial Setup
+    setupTrack();
+    createDots();
+    startAutoPlay();
   }
 
   // Initialize page
@@ -907,12 +1372,15 @@
     const savedLang = localStorage.getItem('shubham_lang') || 'en';
     document.getElementById('langSelect').value = savedLang;
     changeLanguage(savedLang);
+
+    // Initialize Reviews Slider
+    initReviewsSlider();
   });
 
   // Translation Database
   const translations = {
     en: {
-      logo_sub: 'Cab & Taxi Service',
+      logo_sub: 'Cab & Taxi Services',
       nav_home: 'Home',
       nav_fleet: 'Fleet',
       nav_routes: 'Routes',
@@ -926,10 +1394,11 @@
       form_title: '📍 Book Your Cab',
       tab_oneway: 'Oneway',
       tab_round: 'Round Trip',
-      tab_rental: 'Rental',
-      tab_self: 'Self Drive',
+      tab_outstation_packages: 'Outstation Packages',
+      tab_nashik_local: 'Nashik Local Service',
       label_pickup: 'Pickup Location',
       label_drop: 'Drop Location',
+      label_vehicle: 'Select Vehicle',
       label_date: 'Pickup Date',
       label_time: 'Pickup Time',
       btn_whatsapp: 'Send Booking on WhatsApp',
@@ -992,6 +1461,7 @@
       rev_4: 'Fantastic experience! The car was neat and the driver was very helpful throughout.',
       rev_5: 'Easy to book and comfortable journey. Would love to travel with Shubham Travels again.',
       rev_6: 'Cab arrived on time. Great service, safe driving and very reasonable pricing.',
+      rev_7: 'Outstanding service by Shubham Travels! Very professional driver, clean and comfortable car. Will definitely recommend to friends and family.',
       faq_title: 'Frequently Asked Questions',
       faq_desc: 'Everything you need to know about booking with us',
       faq_q1: 'How do I book my first cab?',
@@ -1009,6 +1479,10 @@
       faq_a6: 'Absolutely! We offer multi-day outstation cab rentals across Maharashtra, Goa, Gujarat and other states. Just let us know your itinerary.',
       quick_links: 'Quick Links',
       copyright: 'Copyright © 2026 Shubham Travels. All Rights Reserved.',
+      others: 'Others',
+      others_pickup_placeholder: 'Enter Pickup Location',
+      others_drop_placeholder: 'Enter Drop Location',
+      others_vehicle_placeholder: 'Enter Vehicle Details',
       cities: {
         'Nashik, Maharashtra': 'Nashik, Maharashtra',
         'Mumbai, Maharashtra': 'Mumbai, Maharashtra',
@@ -1034,10 +1508,11 @@
       form_title: '📍 अपनी कैब बुक करें',
       tab_oneway: 'वन-वे',
       tab_round: 'राउंड ट्रिप',
-      tab_rental: 'रेंटल',
-      tab_self: 'सेल्फ ड्राइव',
+      tab_outstation_packages: 'आउटस्टेशन पैकेज',
+      tab_nashik_local: 'नाशिक लोकल सर्विस',
       label_pickup: 'पिकअप स्थान',
       label_drop: 'ड्रॉप स्थान',
+      label_vehicle: 'वाहन चुनें',
       label_date: 'पिकअप की तारीख',
       label_time: 'पिकअप का समय',
       btn_whatsapp: 'व्हाट्सएप पर बुकिंग भेजें',
@@ -1100,6 +1575,7 @@
       rev_4: 'शानदार अनुभव! कार साफ थी और ड्राइवर पूरी तरह से बहुत मददगार था।',
       rev_5: 'बुक करने में आसान और आरामदायक यात्रा। शुभम ट्रैवल्स के साथ फिर से यात्रा करना पसंद करेंगे।',
       rev_6: 'कैब समय पर पहुंची। शानदार सेवा, सुरक्षित ड्राइविंग और बहुत उचित मूल्य निर्धारण।',
+      rev_7: 'शुभम ट्रैवल्स द्वारा उत्कृष्ट सेवा! बहुत ही पेशेवर ड्राइवर, साफ और आरामदायक कार। निश्चित रूप से दोस्तों और परिवार को सिफारिश करेंगे।',
       faq_title: 'अक्सर पूछे जाने वाले प्रश्न',
       faq_desc: 'हमारे साथ बुकिंग के बारे में सब कुछ जो आपको जानना आवश्यक है',
       faq_q1: 'मैं अपनी पहली कैब कैसे बुक करूँ?',
@@ -1117,6 +1593,10 @@
       faq_a6: 'बिल्कुल! हम महाराष्ट्र, गोवा, गुजरात और अन्य राज्यों में बहु-दिवसीय आउटस्टेशन कैब किराए पर देते हैं। बस हमें अपना यात्रा कार्यक्रम बताएं।',
       quick_links: 'महत्वपूर्ण लिंक्स',
       copyright: 'कॉपीराइट © 2026 शुभम ट्रैवल्स। सर्वाधिकार सुरक्षित।',
+      others: 'अन्य',
+      others_pickup_placeholder: 'पिकअप स्थान दर्ज करें',
+      others_drop_placeholder: 'ड्रॉप स्थान दर्ज करें',
+      others_vehicle_placeholder: 'वाहन का विवरण दर्ज करें',
       cities: {
         'Nashik, Maharashtra': 'नाशिक, महाराष्ट्र',
         'Mumbai, Maharashtra': 'मुंबई, महाराष्ट्र',
@@ -1142,10 +1622,11 @@
       form_title: '📍 तुमची कॅब बुक करा',
       tab_oneway: 'वन-वे',
       tab_round: 'राउंड ट्रिप',
-      tab_rental: 'रेंटल',
-      tab_self: 'सेल्फ ड्राईव्ह',
+      tab_outstation_packages: 'आउटस्टेशन पॅकेजेस',
+      tab_nashik_local: 'नाशिक लोकल सेवा',
       label_pickup: 'पिकअप ठिकाण',
       label_drop: 'ड्रॉप ठिकाण',
+      label_vehicle: 'वाहन निवडा',
       label_date: 'पिकअप तारीख',
       label_time: 'पिकअप वेळ',
       btn_whatsapp: 'व्हॉट्सॲपवर बुकिंग पाठवा',
@@ -1208,6 +1689,7 @@
       rev_4: 'विलक्षण अनुभव! कार नीटनेटकी होती आणि ड्रायव्हर संपूर्ण प्रवासात खूप मदत करत होता.',
       rev_5: 'बुक करणे सोपे आणि आरामदायी प्रवास. शुभम ट्रॅव्हल्ससोबत पुन्हा प्रवास करायला आवडेल.',
       rev_6: 'कॅब वेळेवर आली. उत्तम सेवा, सुरक्षित ड्रायव्हिंग आणि अतिशय वाजवी दर.',
+      rev_7: 'शुभम ट्रॅव्हल्सकडून उत्कृष्ट सेवा! खूप व्यावसायिक चालक, स्वच्छ आणि आरामदायक कार. नक्कीच मित्र आणि कुटुंबियांना शिफारस करेल.',
       faq_title: 'नेहमी विचारले जाणारे प्रश्न',
       faq_desc: 'आमच्यासोबत बुकिंग करण्याबद्दल तुम्हाला माहित असणे आवश्यक असलेले सर्वकाही',
       faq_q1: 'मी माझी पहिली कॅब कशी बुक करू?',
@@ -1225,6 +1707,10 @@
       faq_a6: 'नक्कीच! आम्ही महाराष्ट्र, गोवा, गुजरात आणि इतर राज्यांमध्ये बहु-दिवसीय आउटस्टेशन कॅब रेंटल्स ऑफर करतो. जस आम्हाला तुमचा प्रवास प्लॅन कळवा.',
       quick_links: 'महत्त्वाचे दुवे',
       copyright: 'कॉपीराइट © 2026 शुभम ट्रॅव्हल्स. सर्व हक्क राखीव.',
+      others: 'इतर',
+      others_pickup_placeholder: 'पिकअप ठिकाण टाका',
+      others_drop_placeholder: 'ड्रॉप ठिकाण टाका',
+      others_vehicle_placeholder: 'वाहनाचा तपशील टाका',
       cities: {
         'Nashik, Maharashtra': 'नाशिक, महाराष्ट्र',
         'Mumbai, Maharashtra': 'मुंबई, महाराष्ट्र',
@@ -1281,17 +1767,31 @@
     txt('.book-form h3', 'form_title');
     txt('.trip-tabs .trip-tab:nth-child(1)', 'tab_oneway');
     txt('.trip-tabs .trip-tab:nth-child(2)', 'tab_round');
-    txt('.trip-tabs .trip-tab:nth-child(3)', 'tab_rental');
-    txt('.trip-tabs .trip-tab:nth-child(4)', 'tab_self');
+    txt('.trip-tabs .trip-tab:nth-child(3)', 'tab_outstation_packages');
+    txt('.trip-tabs .trip-tab:nth-child(4)', 'tab_nashik_local');
     
     // Labels
     const labels = document.querySelectorAll('.form-group label');
     if (labels[0]) labels[0].innerText = db.label_pickup;
     if (labels[1]) labels[1].innerText = db.label_drop;
-    if (labels[2]) labels[2].innerText = db.label_date;
-    if (labels[3]) labels[3].innerText = db.label_time;
+    if (labels[2]) labels[2].innerText = db.label_vehicle;
+    if (labels[3]) labels[3].innerText = db.label_date;
+    if (labels[4]) labels[4].innerText = db.label_time;
     
     txt('.btn-book', 'btn_whatsapp', 'fab fa-whatsapp');
+
+    // Translate Dropdown "Others" option dynamically
+    document.querySelectorAll('option[value="Others"]').forEach(opt => {
+      opt.innerText = db.others;
+    });
+
+    // Translate Placeholders for custom input fields dynamically
+    const pickupOther = document.getElementById('pickupLocOther');
+    if (pickupOther) pickupOther.placeholder = db.others_pickup_placeholder;
+    const dropOther = document.getElementById('dropLocOther');
+    if (dropOther) dropOther.placeholder = db.others_drop_placeholder;
+    const vehicleOther = document.getElementById('selectVehicleOther');
+    if (vehicleOther) vehicleOther.placeholder = db.others_vehicle_placeholder;
 
     // Translate Dropdown Cities dynamically
     document.querySelectorAll('#pickupLoc option, #dropLoc option').forEach(opt => {
@@ -1393,13 +1893,13 @@
     // 12. Reviews
     txt('.reviews .section-title h2', 'rev_title');
     txt('.reviews .section-title p', 'rev_desc');
-    const revCards = document.querySelectorAll('.reviews-grid .review-card p');
-    if (revCards[0]) revCards[0].innerText = db.rev_1;
-    if (revCards[1]) revCards[1].innerText = db.rev_2;
-    if (revCards[2]) revCards[2].innerText = db.rev_3;
-    if (revCards[3]) revCards[3].innerText = db.rev_4;
-    if (revCards[4]) revCards[4].innerText = db.rev_5;
-    if (revCards[5]) revCards[5].innerText = db.rev_6;
+    document.querySelectorAll('.reviews .review-card').forEach(card => {
+      const idx = card.getAttribute('data-index');
+      const p = card.querySelector('p');
+      if (p && idx !== null) {
+        p.innerText = db[`rev_${parseInt(idx) + 1}`];
+      }
+    });
 
     // 13. FAQ
     txt('.faq .section-title h2', 'faq_title');
